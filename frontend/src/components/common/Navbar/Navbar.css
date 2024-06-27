@@ -1,0 +1,31 @@
+.navbar-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+}
+
+.navbar-container .nav-option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.navbar-container .nav-option:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.navbar-container svg {
+  font-size: 28px;
+  color: var(--fg-color-1);
+}
+
+.navbar-container .selected {
+  color: var(--red-1);
+}

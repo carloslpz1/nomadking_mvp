@@ -1,0 +1,70 @@
+.toast-container {
+  position: relative;
+  /* top: 116px;
+  right: 16px; */
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 300px;
+  min-height: 48px;
+  padding: 12px 20px;
+  background-color: var(--bg-card-color);
+  border-radius: 4px;
+  color: var(--fg-color);
+  font-size: 14px;
+  letter-spacing: 1.2px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  /* animation: fadein 300ms, fadeout 300ms 1s; */
+}
+
+.toast-container.success {
+  background-color: #42a069;
+  color: var(--gray-1);
+}
+
+.toast-container.error {
+  background-color: var(--red-2);
+  color: var(--gray-8);
+}
+
+.toast-container.info {
+  background-color: var(--blue-1);
+  color: var(--gray-8);
+}
+
+.toast-container svg {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.toast-container .message {
+  max-width: 244px;
+}
+
+.timer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--fg-color-1);
+  animation-name: tick;
+  animation-timing-function: linear;
+}
+
+@keyframes fadein {
+  from { opacity: 0;}
+  to { opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { opacity: 1;}
+  to { opacity: 0; }
+}
+
+@keyframes tick {
+  from { width: 0; }
+  to { width: 300px; }
+}

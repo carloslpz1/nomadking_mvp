@@ -1,0 +1,390 @@
+.join-us::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../assets/images/bg-bogota.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(2px);
+  z-index: -1;
+}
+
+.join-us {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+  padding: 0 16%;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.join-us-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.join-us-info h2 {
+  font-size: 3.5rem;
+  color: #ededed;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.join-us-info .people {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+}
+
+.join-us-info .attributes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 440px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: rgba(217, 217, 217, 0.3);
+}
+
+.join-us-info .attributes p {
+  color: #171717;
+  letter-spacing: 2px;
+}
+
+
+/* Formulario */
+.join-us-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  border-radius: 14px;
+  background-color: var(--bg-card-color);
+}
+
+.join-us-form form {
+  width: 300px;
+  height: 100%;
+  text-align: center;
+}
+
+.join-us-form form input {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  outline: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--fg-color-1);
+}
+
+.join-us-form form input:focus {
+  border-color: var(--bg-btn-1);
+}
+
+.join-us-form form button {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 16px;
+  border: 1px solid var(--bg-btn-1);
+  border-radius: 12px;
+  outline: none;
+  background-color: var(--bg-btn-1);
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--fg-btn-1);
+  cursor: pointer;
+}
+
+.join-us-form form button:hover {
+  background-color: #ededed;
+  color: var(--bg-btn-1);
+}
+
+.join-us-form form p {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.join-us-form form p a {
+  color: #334d76;
+  text-decoration: none;
+}
+
+/* Illustrations */
+.info-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 3rem 15%;
+}
+
+.info-container h3 {
+  font-size: 3rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: var(--fg-color-1);
+}
+
+.info-container .illustration {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2/1;
+}
+
+.info-container img {
+  width: 70%;
+  background-color: var(--bg-color);
+  border-radius: 20px;
+}
+
+.info-container p {
+  font-size: 14px;
+  color: var(--fg-color-1);
+}
+
+.info-1 .box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  aspect-ratio: 2/1.2;
+  border-radius: 20px;
+  background-color: var(--fg-color-2);
+  z-index: -1;
+}
+
+.info-2 {
+  background-color: var(--red-1);
+  text-align: right;
+}
+
+.info-2 h3 {
+  color: var(--gray-8);
+}
+
+.info-2 p {
+  color: var(--gray-8);
+}
+
+.info-2 .illustration {
+  aspect-ratio: 1/0.55;
+}
+
+.info-2 img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--gray-8);
+}
+
+.info-2 .circle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--gray-2);
+}
+
+.info-3 .illustration {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.info-3 .illu-1 {
+  display: flex;
+  justify-content: space-between;
+  text-align: right;
+}
+
+.info-3 .illu-2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-3 .illu-2 h3 {
+  align-self: auto;
+}
+
+.info-3 .illu-2 img {
+  width: 60%;
+}
+
+.info-3 h3 {
+  font-size: 5rem;
+  align-self: center;
+}
+
+.info-3 img {
+  width: 50%;
+}
+
+.text-travel span {
+  color: var(--red-1);
+}
+
+
+
+@media (max-width: 575.98px) {
+  .join-us {
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    height: auto;
+    padding: 10% 5%;
+  }
+
+  .join-us-info {
+    align-items: center;
+  }
+
+  .join-us-info h2 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .join-us-info .people .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .join-us-info .attributes {
+    width: 90%;
+  }
+
+  .join-us-info .attributes p {
+    font-size: 12px;
+  }
+
+  .join-us-form {
+    padding: 5%;
+  }
+
+  .join-us-form form {
+    width: 90%;
+  }
+
+  .join-us-form form input {
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .join-us-form form button {
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .join-us-form form p {
+    font-size: 12px;
+  }
+
+  .info-container {
+    padding: 2rem 16px;
+  }
+
+  .info-container h3 {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .join-us {
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    height: auto;
+    padding: 10% 5%;
+  }
+
+  .join-us-info {
+    align-items: center;
+  }
+
+  .join-us-info h2 {
+    font-size: 2.8rem;
+    text-align: center;
+  }
+
+  .info-container {
+    padding: 2rem 32px;
+  }
+
+  .info-container h3 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 891.98px) {
+  .join-us {
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    padding: 0 5%;
+  }
+
+  .join-us-info {
+    align-items: center;
+  }
+
+  .join-us-info h2 {
+    font-size: 3.2rem;
+    text-align: center;
+  }
+
+  .info-container {
+    padding: 2rem 10%;
+  }
+
+  .info-container h3 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 892px) and (max-width: 991.98px) {
+  .join-us {
+    gap: 16px;
+    padding: 0 5%;
+  }
+
+  .join-us-info h2 {
+    font-size: 2.8rem;
+  }
+
+  .info-container h3 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .join-us {
+    gap: 16px;
+    padding: 0 5%;
+  }
+
+  .info-container h3 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {}

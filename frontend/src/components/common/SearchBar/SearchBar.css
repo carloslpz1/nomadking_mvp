@@ -1,0 +1,30 @@
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--bg-card-color);
+  border-radius: 8px;
+  padding: 4px;
+  width: 100%;
+}
+
+.search-bar input {
+  width: calc(100% - 34px);
+  padding: 0 4px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg-color-1);
+  letter-spacing: 1.1px;
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background-color: var(--red-1);
+  color: var(--gray-8);
+  cursor: pointer;
+}

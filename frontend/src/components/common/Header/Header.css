@@ -1,0 +1,120 @@
+header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 0 16px;
+  background-color: var(--bg-card-color);
+  -webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.25);
+  transition: all ease 300ms;
+}
+
+header .logo {
+  font-family: "Rockwell", sans-serif;
+  font-size: 1.25rem;
+  color: var(--fg-color-1);
+  letter-spacing: 1.2px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.btn-ham {
+  display: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--blue-1);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  background-color: var(--bg-card-color);
+  transition: background-color ease 300ms;
+}
+
+.nav .nav-items {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  list-style: none;
+}
+
+.nav .nav-items .nav-item:hover > a {
+  border-color: var(--fg-color-2);
+}
+
+.nav .nav-items a {
+  padding: 4px 8px;
+  border-bottom: 1px solid transparent;
+  font-size: 0.8rem;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--fg-color-1);
+  transition: all ease-in 300ms;
+}
+
+.nav .nav-items a:hover {
+  color: var(--fg-color-2);
+}
+
+.user-options {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 767.98px) {
+  header {
+    transition: box-shadow ease-out 300ms;
+  }
+
+  header.header-shadow {
+    -webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.25);
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.25);
+  }
+
+  header.header-no-shadow {
+    box-shadow: none;
+    /* margin-bottom: 210px; */
+  }
+
+  header .logo {
+    font-size: 1.2rem;
+  }
+
+  .btn-ham {
+    display: block;
+  }
+
+  .nav {
+    position: absolute;
+    flex-direction: column;
+    gap: 16px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding-bottom: 16px;
+    transition: transform ease-in-out 300ms;
+    z-index: 1;
+  }
+
+  .nav.nav-open {
+    transform: translateX(0);
+  }
+
+  .nav.nav-close {
+    transform: translateX(-100%);
+  }
+
+  .nav .nav-items {
+    flex-direction: column;
+  }
+}

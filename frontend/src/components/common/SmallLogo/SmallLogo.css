@@ -1,0 +1,21 @@
+.small-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+  color: var(--fg-color-1);
+  font-family: "RockWell";
+  font-size: 18px;
+  letter-spacing: 2px;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.25);
+  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+.small-logo > span {
+  color: var(--red-1);
+}
