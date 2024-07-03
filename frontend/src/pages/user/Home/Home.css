@@ -36,8 +36,11 @@
   position: relative;
   grid-column: 2;
   grid-row: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   /* height: 1200px; */
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 .create-post {
@@ -45,20 +48,8 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100px;
-  background-color: yellowgreen;
-}
-
-.posts {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.post {
-  width: 100%;
-  height: 300px;
-  background-color: aquamarine;
+  /* height: 100px; */
+  /* background-color: yellowgreen; */
 }
 
 /* Right side */
@@ -69,7 +60,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background-color: purple;
+  /* background-color: purple; */
 }
 
 .right-side .navbar {
@@ -78,7 +69,7 @@
   left: 0;
   width: 100%;
   /* height: 60px; */
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
 }
 
 @media (max-width: 575.98px) {
@@ -102,6 +93,10 @@
 
   .profile-side.open {
     transform: translateX(250px);
+  }
+
+  .post-side {
+    margin-bottom: 64px;
   }
 
   .right-side {
