@@ -1,13 +1,18 @@
 const userModel = require('../models/user')
+const { handleHttpError } = require('../utils/handleError')
 
 const getUser = (req, res) => {
 
 }
 
 const getUsers = async (req, res) => {
-  const data = await userModel.findAll({})
+  try {
+    const data = await userModel.findAll({})
 
-  res.send({ data })
+    res.send({ data })
+  } catch (e) {
+    handleHttpError(res, 'Error with getting the USERS')
+  }
 }
 
 const createUser = async (req, res) => {

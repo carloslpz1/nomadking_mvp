@@ -21,6 +21,7 @@ const User = sequelize.define(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -32,20 +33,22 @@ const User = sequelize.define(
       allowNull: false,
     },
     avatar: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     birthdate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
     },
     account_type: {
-      type: DataTypes.ENUM(['free', 'premium'])
+      type: DataTypes.ENUM(['free', 'premium']),
+      defaultValue: 'free',
     },
     role_id: {
       type: DataTypes.INTEGER,
       references: {
         model: Role,
         key: 'id'
-      }
+      },
+      defaultValue: 1,
     }
   },
   {
