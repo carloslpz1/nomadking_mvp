@@ -1,11 +1,11 @@
 const express = require("express")
-const { getUser, getUsers, createUser, updateUser, deleteUser } = require("../controllers/users.controller")
-const { validatorCreateUser } = require("../validators/users.validator")
+const { getUserByUsername, checkUsername, updateUser } = require("../controllers/users.controller")
+const { validateUsername, validatorUpdateUser } = require("../validators/users.validator")
 
 const router = express.Router()
 
-router.get('/', getUsers)
-router.get('/:id', getUser)
-router.post('/', validatorCreateUser, createUser)
+router.get('/:username', getUserByUsername)
+router.get('/:username/check', validateUsername, checkUsername)
+router.put('/:id', validatorUpdateUser, updateUser)
 
 module.exports = router

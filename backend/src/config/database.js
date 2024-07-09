@@ -17,7 +17,7 @@ const dbConnect = async () => {
     await sequelize.authenticate()
     console.log('Connection to database established')
 
-    sequelize.sync()
+    sequelize.sync({})
       .then(() => {
         console.log('Database & tables created!')
       })

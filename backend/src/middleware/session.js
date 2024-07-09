@@ -1,4 +1,4 @@
-const { handleHttpError } = require('../utils/handleError')
+const { handleHttpError } = require('../utils/handleResponse')
 const { verifyToken } = require('../utils/handleJwt')
 
 const authMiddleware = async (req, res, next) => {

@@ -15,7 +15,7 @@ const Follow = sequelize.define(
     followed_user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: Post,
+        model: User,
         key: 'id'
       }
     }

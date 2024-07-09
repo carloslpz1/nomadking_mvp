@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { handleHttpError } = require('../utils/handleError')
+const { handleHttpError, handleHttpSuccess } = require('../utils/handleResponse')
 const userModel = require('../models/user')
 const { encrypt, compare } = require('../utils/handlePassword')
 const { tokenSign, verifyToken } = require('../utils/handleJwt')
@@ -33,12 +33,9 @@ const loginUser = async (req, res) => {
     }
 
     user.set('password', undefined, { strict: false })
-    const data = {
-      token: await tokenSign(user),
-      user
-    }
+    const token = await tokenSign(user)
 
-    res.send({ data })
+    handleHttpSuccess(res, 'Valid credentials', 200, user, token)
   } catch (e) {
     handleHttpError(res, 'Error while login user')
   }
@@ -48,18 +45,31 @@ const registerUser = async (req, res) => {
   try {
     req = matchedData(req)
 
+    let user = await userModel.findOne({
+      where: { email: req.email },
+    })
+    if (user) {
+      handleHttpError(res, 'Email already exists', 403)
+      return
+    }
+
+    user = await userModel.findOne({
+      where: { username: req.username },
+    })
+    if (user) {
+      handleHttpError(res, 'Username already exists', 403)
+      return
+    }
+
     const passwordHash = await encrypt(req.password)
     const body = { ...req, password: passwordHash }
 
     const userData = await userModel.create(body)
 
     userData.set('password', undefined, { strict: false })
-    const data = {
-      token: await tokenSign(userData),
-      user: userData,
-    }
+    const token = await tokenSign(userData)
 
-    res.send({ data })
+    handleHttpSuccess(res, 'User registered', 201, userData, token)
   } catch (e) {
     handleHttpError(res, 'Error while registering user')
   }

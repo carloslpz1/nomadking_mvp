@@ -35,8 +35,32 @@ const User = sequelize.define(
     avatar: {
       type: DataTypes.INTEGER,
     },
+    banner: {
+      type: DataTypes.INTEGER,
+    },
     birthdate: {
       type: DataTypes.DATEONLY,
+    },
+    age: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        const birthdate = this.getDataValue('birthdate')
+        if (birthdate) {
+          const today = new Date()
+          const birthdateObj = new Date(birthdate)
+
+          let age = today.getFullYear() - birthdateObj.getFullYear()
+          const month = today.getMonth() - birthdateObj.getMonth()
+
+          if (month < 0 || (month === 0 && today.getDate() < birthdateObj.getDate())) {
+            age--
+          }
+
+          return age
+        } else {
+          return null
+        }
+      }
     },
     account_type: {
       type: DataTypes.ENUM(['free', 'premium']),
