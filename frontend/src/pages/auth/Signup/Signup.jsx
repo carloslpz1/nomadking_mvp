@@ -1,20 +1,36 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../components/common/Header/Header'
 import Footer from '../../../components/common/Footer/Footer'
+import ButtonLoading from '../../../components/common/ButtonLoading/ButtonLoading'
+import useDocumentTitle from '../../../hooks/useDocumentTitle'
+import useToast from '../../../hooks/useToast'
 import { FaGoogle, FaFacebookF, FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa'
 import './Signup.css'
-import useDocumentTitle from '../../../hooks/useDocumentTitle'
 
 const Signup = () => {
+  const navigate = useNavigate()
   const setTitle = useDocumentTitle()
   const { state } = useLocation()
   const [name, setName] = useState('')
   const [surname, setSurname] = useState('')
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
   const [showPass, setShowPass] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { addToast } = useToast()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+
+    // TODO: Validar token almacenado en la API
+    if (token) {
+      navigate('/home')
+    }
+  }, [navigate])
 
   useEffect(() => {
     setTitle('Signup')
@@ -31,10 +47,22 @@ const Signup = () => {
 
     if (!name) {
       errors.name = 'Name is required'
+    } else if (name.length < 3) {
+      errors.name = 'Name is too short'
     }
 
     if (!surname) {
       errors.surname = 'Surname is required'
+    } else if (surname.length < 3) {
+      errors.surname = 'Surname is too short'
+    }
+
+    if (!username) {
+      errors.username = 'Surname is required'
+    } else if (!/^[a-zA-z0-9_]+$/.test(username)) {
+      errors.username = "Only can contain letters, numbers and '_'"
+    } else if (username.length < 3) {
+      errors.username = 'Username is too short'
     }
 
     if (!email) {
@@ -52,14 +80,56 @@ const Signup = () => {
     return errors
   }
 
-  const handleSubmit = (e) => {
+  const checkUsername = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/users/${username}/check`, {
+        method: 'GET'
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        setErrors({ ...errors, username: errorData.error.message })
+        throw new Error(errorData.error.message)
+      }
+
+      setErrors({ ...errors, username: undefined })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const validationErrors = validate()
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors)
-    } else {
+    setErrors(validationErrors)
+    if (Object.keys(validationErrors).length === 0) {
       // Handle successful signup
+      setIsLoading(true)
+      try {
+        const response = await fetch('http://localhost:3000/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, surname, username, email, password })
+        })
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          addToast(errorData.error.message, 5000, 'error')
+          throw new Error(errorData.error.message)
+        }
+
+        // const data = await response.json()
+
+        addToast('Account successfuly created!', 5000, 'success')
+        navigate('/login')
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -104,6 +174,18 @@ const Signup = () => {
               {errors.surname && <div className="input-error"><FaTimes /><p>{errors.surname}</p></div>}
             </div>
             <div className="input-field">
+              <label htmlFor="username">username</label>
+              <input
+                type="text"
+                placeholder="Enter your username"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onBlur={checkUsername}
+              />
+              {errors.username && <div className="input-error"><FaTimes /><p>{errors.username}</p></div>}
+            </div>
+            <div className="input-field">
               <label htmlFor="email">Email</label>
               <input
                 type="text"
@@ -135,7 +217,11 @@ const Signup = () => {
               </div>
               {errors.password && <div className="input-error"><FaTimes /><p>{errors.password}</p></div>}
             </div>
-            <button type="submit" className="btn">Sign In</button>
+            {
+              isLoading
+                ? <ButtonLoading />
+                : <button type="submit" className="btn">Log In</button>
+            }
           </form>
         </div>
         <p>Already have an account? <Link to={'/login'}>Log in</Link></p>

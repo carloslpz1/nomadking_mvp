@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { DocumentTitleContext } from "../contexts/contexts"
 
-export const useDocumentTitle = () => {
+const useDocumentTitle = () => {
   return useContext(DocumentTitleContext)
 }
 

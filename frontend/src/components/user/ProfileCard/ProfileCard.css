@@ -16,10 +16,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 116px;
 }
 
 .profile-card .profile-header .cover-img {
   width: 100%;
+  max-height: 7.25rem;
+  object-fit: cover;
 }
 
 .profile-card .profile-header .profile-img {

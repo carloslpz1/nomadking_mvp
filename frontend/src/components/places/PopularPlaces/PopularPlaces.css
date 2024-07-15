@@ -1,0 +1,79 @@
+.popular-places {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: var(--bg-card-color);
+  /* z-index: -1; */
+}
+
+.popular-places .title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popular-places .title:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.popular-places h3 {
+  font-size: 16px;
+  letter-spacing: 1.1px;
+}
+
+.popular-places .places {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.popular-places .places .place {
+  position: relative;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  /* z-index: -1; */
+}
+
+.popular-places .places .place:hover > .cover {
+  display: flex;
+}
+
+.popular-places .places .place img {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.popular-places .places .place .cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popular-places .places .place h4 {
+  color: var(--gray-8);
+  font-size: 16px;
+  text-align: center;
+}
+
+.popular-places .places .place span {
+  color: var(--gray-8);
+  font-size: 12px;
+}
