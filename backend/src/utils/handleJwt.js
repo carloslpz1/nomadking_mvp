@@ -5,12 +5,13 @@ const tokenSign = async (user) => {
   const sign = jsonwebtoken.sign(
     {
       id: user.id,
+      username: user.username,
       role: user.role,
       account: user.account_type
     },
     JWT_SECRET,
     {
-      expiresIn: '2h'
+      expiresIn: '1d'
     }
   )
 

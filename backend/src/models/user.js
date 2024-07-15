@@ -1,6 +1,7 @@
 const { sequelize } = require("../config/database")
 const { DataTypes } = require("sequelize")
 const Role = require("./role")
+const Storage = require("./storage")
 
 const User = sequelize.define(
   "users",
@@ -34,6 +35,10 @@ const User = sequelize.define(
     },
     avatar: {
       type: DataTypes.INTEGER,
+      // references: {
+      //   model: Storage,
+      //   key: 'id'
+      // },
     },
     banner: {
       type: DataTypes.INTEGER,

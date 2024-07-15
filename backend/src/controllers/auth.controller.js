@@ -1,9 +1,11 @@
+const { sequelize } = require("../config/database")
 const { matchedData } = require('express-validator')
 const { handleHttpError, handleHttpSuccess } = require('../utils/handleResponse')
 const userModel = require('../models/user')
 const { encrypt, compare } = require('../utils/handlePassword')
 const { tokenSign, verifyToken } = require('../utils/handleJwt')
 const Role = require('../models/role')
+const { UserModel } = require('../models')
 
 const loginUser = async (req, res) => {
   try {
@@ -11,6 +13,42 @@ const loginUser = async (req, res) => {
 
     const user = await userModel.findOne({
       where: { email: req.email },
+      attributes: {
+        include: [
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.avatar  
+            )`),
+            'avatar'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.banner  
+            )`),
+            'banner'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows AS follows
+              WHERE follows.followed_user_id = users.id
+            )`),
+            'followers'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows AS follows
+              WHERE follows.follower_user_id = users.id
+            )`),
+            'following'
+          ]
+        ]
+      },
       include: [
         {
           model: Role,
@@ -20,7 +58,7 @@ const loginUser = async (req, res) => {
       ]
     })
     if (!user) {
-      handleHttpError(res, 'Invalid credentials', 404)
+      handleHttpError(res, 'Wrong email or password', 404)
       return
     }
 
@@ -28,15 +66,16 @@ const loginUser = async (req, res) => {
     const check = await compare(req.password, hashPassword)
 
     if (!check) {
-      handleHttpError(res, 'Invalid credentials', 401)
+      handleHttpError(res, 'Wrong email or password', 401)
       return
     }
 
     user.set('password', undefined, { strict: false })
     const token = await tokenSign(user)
 
-    handleHttpSuccess(res, 'Valid credentials', 200, user, token)
+    handleHttpSuccess(res, 'Valid credentials', 200, user, undefined, token)
   } catch (e) {
+    console.log(e)
     handleHttpError(res, 'Error while login user')
   }
 }
@@ -69,10 +108,78 @@ const registerUser = async (req, res) => {
     userData.set('password', undefined, { strict: false })
     const token = await tokenSign(userData)
 
-    handleHttpSuccess(res, 'User registered', 201, userData, token)
+    handleHttpSuccess(res, 'User registered', 201, userData)
   } catch (e) {
     handleHttpError(res, 'Error while registering user')
   }
 }
 
-module.exports = { loginUser, registerUser }
+const checkToken = async (req, res) => {
+  try {
+    if (!req.headers.authorization) {
+      handleHttpError(res, 'Token is missing', 401)
+      return
+    }
+
+    const token = req.headers.authorization.split(' ').pop()
+    const dataToken = await verifyToken(token)
+
+    if (!dataToken.id) {
+      handleHttpError(res, 'Error with the token', 401)
+      return
+    }
+
+    const user = await UserModel.findOne({
+      where: { id: dataToken.id },
+      attributes: {
+        include: [
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.avatar  
+            )`),
+            'avatar'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.banner  
+            )`),
+            'banner'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows AS follows
+              WHERE follows.followed_user_id = users.id
+            )`),
+            'followers'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows AS follows
+              WHERE follows.follower_user_id = users.id
+            )`),
+            'following'
+          ]
+        ]
+      },
+      include: [
+        {
+          model: Role,
+          as: 'role',
+          attributes: ['name']
+        }
+      ]
+    })
+
+    handleHttpSuccess(res, 'Valid token', 200, user, undefined, token)
+  } catch (e) {
+    handleHttpError(res, 'Error with the token verification')
+  }
+}
+
+module.exports = { loginUser, registerUser, checkToken }

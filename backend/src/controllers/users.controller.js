@@ -1,5 +1,5 @@
 const { sequelize } = require("../config/database")
-const { UserModel, PostModel } = require('../models')
+const { UserModel, PostModel, StorageModel } = require('../models')
 const { matchedData } = require('express-validator')
 const { handleHttpSuccess, handleHttpError } = require('../utils/handleResponse')
 const { verifyToken } = require('../utils/handleJwt')
@@ -24,6 +24,22 @@ const getUserByUsername = async (req, res) => {
       // ],
       attributes: {
         include: [
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.avatar  
+            )`),
+            'avatar'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.banner  
+            )`),
+            'banner'
+          ],
           [
             sequelize.literal(`(
               SELECT COUNT(*)
