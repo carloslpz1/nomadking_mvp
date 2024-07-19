@@ -26,8 +26,6 @@ const Login = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-
-    // TODO: Validar token almacenado en la API
     if (token) {
       navigate('/home')
     }
@@ -64,10 +62,16 @@ const Login = () => {
       // Handle successful login
       setIsLoading(true)
       try {
-        await login({ email, password })
+        const res = await login({ email, password })
 
-        addToast('Successful login', 5000, 'success')
-        navigate('/home')
+        if (res.status == 'error') {
+          addToast(res.message, 5000, 'error')
+        }
+
+        if (res.status == 'success') {
+          addToast(res.message, 5000, 'success')
+          navigate('/home')
+        }
       } catch (e) {
         console.error(e)
       } finally {

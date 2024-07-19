@@ -26,7 +26,6 @@ const Signup = () => {
   useEffect(() => {
     const token = localStorage.getItem('token')
 
-    // TODO: Validar token almacenado en la API
     if (token) {
       navigate('/home')
     }

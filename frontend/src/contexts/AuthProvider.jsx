@@ -8,19 +8,30 @@ const AuthProvider = ({ children }) => {
   const apiUrl = import.meta.env.VITE_API_URL
 
   const login = async (credentials) => {
-    const response = await fetch(`${apiUrl}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
-    })
+    try {
+      const response = await fetch(`${apiUrl}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+      })
 
-    const data = await response.json()
+      const data = await response.json()
 
-    if (data.token) {
-      localStorage.setItem('token', data.token)
-      setUser(data.data.items)
+      if (data.status == 'error') {
+        return { status: 'error', message: data.error.message }
+      }
+
+      if (data.token) {
+        localStorage.setItem('token', data.token)
+        setUser(data.data.items)
+      }
+
+      return { status: 'success', message: 'You logged successfuly.' }
+    } catch (e) {
+      console.error('Error while doing the query.')
+      return { status: 'error', message: 'Error with the server. Try later.' }
     }
   }
 

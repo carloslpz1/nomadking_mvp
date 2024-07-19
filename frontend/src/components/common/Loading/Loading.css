@@ -1,0 +1,13 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  height: 100dvh;
+}
+
+.loading-container .spinner {
+  width: 60px;
+  aspect-ratio: 1;
+}
