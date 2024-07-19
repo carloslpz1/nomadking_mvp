@@ -14,3 +14,9 @@ SELECT COUNT(p.id) AS totalPosts
 FROM posts p
 JOIN follows f ON p.user_id=f.followed_user_id
 WHERE f.follower_user_id=3;
+
+SELECT EXISTS(
+	SELECT 1
+	FROM follows
+	WHERE follower_user_id = 2 AND followed_user_id = 3
+) AS following;

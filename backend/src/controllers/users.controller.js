@@ -1,8 +1,11 @@
+const Sequelize = require('sequelize')
 const { sequelize } = require("../config/database")
 const { UserModel, PostModel, StorageModel } = require('../models')
 const { matchedData } = require('express-validator')
 const { handleHttpSuccess, handleHttpError } = require('../utils/handleResponse')
 const { verifyToken } = require('../utils/handleJwt')
+
+const Op = Sequelize.Op
 
 const getUserByUsername = async (req, res) => {
   try {
@@ -116,6 +119,59 @@ const checkUsername = async (req, res) => {
   }
 }
 
+const findUsersByUsername = async (req, res) => {
+  try {
+    const username = req.params.username
+
+    const token = req.headers.authorization.split(' ').pop()
+    const dataToken = await verifyToken(token)
+
+    // Find users by username is like
+    const users = await UserModel.findAll({
+      attributes: [
+        'id',
+        'name',
+        'surname',
+        'username',
+        [
+          sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.avatar  
+            )`),
+          'avatar'
+        ],
+        [
+          sequelize.literal(`(
+              SELECT EXISTS(
+                SELECT 1
+                FROM follows
+                WHERE follower_user_id = ${dataToken.id} AND followed_user_id = users.id
+              )  
+            )`),
+          'following'
+        ],
+      ],
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `${username}%` } },
+          { surname: { [Op.like]: `${username}%` } },
+          { username: { [Op.like]: `${username}%` } }
+        ]
+      },
+      limit: 5,
+    })
+
+    if (users.length == 0) {
+      handleHttpError(res, 'No users found', 403, { search: 'No users found.' })
+    } else {
+      handleHttpSuccess(res, 'We find some users', 200, users)
+    }
+  } catch (e) {
+    handleHttpError(res, 'Error with finding users')
+  }
+}
+
 const getUsers = async (req, res) => {
   try {
     const data = await UserModel.findAll({})
@@ -147,4 +203,4 @@ const updateUser = async (req, res) => {
 
 const deleteUser = (req, res) => { }
 
-module.exports = { getUserByUsername, checkUsername, updateUser }
+module.exports = { getUserByUsername, checkUsername, findUsersByUsername, updateUser }

@@ -33,8 +33,12 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    career: {
+      type: DataTypes.STRING,
+    },
     avatar: {
       type: DataTypes.INTEGER,
+      defaultValue: () => Math.floor(Math.random() * 10) + 1
       // references: {
       //   model: Storage,
       //   key: 'id'

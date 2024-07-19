@@ -1,6 +1,24 @@
 /* STORAGE */
 INSERT INTO storages (filename, url, createdAt, updatedAt)
-VALUES ('VxP3Xz1kerWq3vhJTUOL1720213031086.jpeg', 'http://localhost:3000/uploads/VxP3Xz1kerWq3vhJTUOL1720213031086.jpeg', DATETIME('now'), DATETIME('now'));
+VALUES ('POaWsED6CLUJ0YAPoo3O1721354471614.png', 'http://localhost:3000/uploads/POaWsED6CLUJ0YAPoo3O1721354471614.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('COClM5G0WaGD70S55w0V1721354550958.png', 'http://localhost:3000/uploads/COClM5G0WaGD70S55w0V1721354550958.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('QgD1UVKveyOenIE4z8sA1721354559681.png', 'http://localhost:3000/uploads/QgD1UVKveyOenIE4z8sA1721354559681.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('ilfbRCVX0zuYK2bh8rii1721354566445.png', 'http://localhost:3000/uploads/ilfbRCVX0zuYK2bh8rii1721354566445.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('Ms14xCdi8YwoLpExtI0i1721354572750.png', 'http://localhost:3000/uploads/Ms14xCdi8YwoLpExtI0i1721354572750.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('w5Y3oKgc7jU5PDJp9B5A1721354590504.png', 'http://localhost:3000/uploads/w5Y3oKgc7jU5PDJp9B5A1721354590504.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('HX1jRgdf949AEi5lgBhm1721354596291.png', 'http://localhost:3000/uploads/HX1jRgdf949AEi5lgBhm1721354596291.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('xhHCftsgN44qEvrR7eFH1721354601228.png', 'http://localhost:3000/uploads/xhHCftsgN44qEvrR7eFH1721354601228.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('OhtCFi0CsnK708lnGwh91721354605814.png', 'http://localhost:3000/uploads/OhtCFi0CsnK708lnGwh91721354605814.png', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('5jnjdsGQ5pyRlPpRfToq1721354614605.png', 'http://localhost:3000/uploads/5jnjdsGQ5pyRlPpRfToq1721354614605.png', DATETIME('now'), DATETIME('now'));
 
 /* ROLES */
 INSERT INTO roles (name, description, createdAt, updatedAt)
