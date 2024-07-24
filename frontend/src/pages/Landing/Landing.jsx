@@ -20,6 +20,13 @@ const Landing = () => {
   const [email, setEmail] = useState('')
 
   useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/home')
+    }
+  }, [navigate])
+
+  useEffect(() => {
     setTitle('')
   }, [setTitle])
 

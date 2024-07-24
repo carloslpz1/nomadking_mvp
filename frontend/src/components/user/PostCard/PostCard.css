@@ -14,17 +14,81 @@
   object-fit: cover;
 }
 
-.post .post-react {
+.detail {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.detail .avatar {
+  width: 42px;
+  height: 42px;
+  border-color: var(--bg-card-hover);
+}
+
+.detail .user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail .date {
+  align-self: flex-start;
+  margin-left: auto;
+}
+
+/* .post .content {
+  margin-left: 50px;
+} */
+
+.post .post-react {
+  display: flex;
+  justify-content: flex-end;
   gap: 20px;
 }
 
-.post .post-react > svg {
-  font-size: 28px;
+.post .post-react .likes,
+.post .post-react .comments,
+.post .post-react .share {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.post .post-react svg {
+  font-size: 24px;
   cursor: pointer;
 }
 
 .post .post-react .liked {
   color: var(--red-1);
+}
+
+.post .hl {
+  border-top: 1px solid var(--bg-card-hover);
+}
+
+.post .comment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.post .comment .avatar {
+  width: 32px;
+  height: 32px;
+}
+
+.post .comment .user-info {
+  font-size: 14px;
+}
+
+.post .comment .date {
+  font-size: 14px;
+}
+
+.post .comment .content {
+  font-size: 14px;
 }
