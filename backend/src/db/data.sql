@@ -20,6 +20,13 @@ VALUES ('OhtCFi0CsnK708lnGwh91721354605814.png', 'http://localhost:3000/uploads/
 INSERT INTO storages (filename, url, createdAt, updatedAt)
 VALUES ('5jnjdsGQ5pyRlPpRfToq1721354614605.png', 'http://localhost:3000/uploads/5jnjdsGQ5pyRlPpRfToq1721354614605.png', DATETIME('now'), DATETIME('now'));
 
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('axjohQCY54RR5HWetouX1721785800492.jpg', 'http://localhost:3000/uploads/axjohQCY54RR5HWetouX1721785800492.jpg', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('2sb1Q3hwCKTuCWmB6sMS1721785813586.jpg', 'http://localhost:3000/uploads/2sb1Q3hwCKTuCWmB6sMS1721785813586.jpg', DATETIME('now'), DATETIME('now'));
+INSERT INTO storages (filename, url, createdAt, updatedAt)
+VALUES ('efTo6WG7dpmLjW0ZKqP21721785821446.jpg', 'http://localhost:3000/uploads/efTo6WG7dpmLjW0ZKqP21721785821446.jpg', DATETIME('now'), DATETIME('now'));
+
 /* ROLES */
 INSERT INTO roles (name, description, createdAt, updatedAt)
 VALUES ('user', 'Regular user in the app', DATETIME('now'), DATETIME('now'));
@@ -51,3 +58,7 @@ INSERT INTO follows (follower_user_id, followed_user_id, createdAt, updatedAt)
 VALUES (3, 2, DATETIME('now'), DATETIME('now'));
 INSERT INTO follows (follower_user_id, followed_user_id, createdAt, updatedAt)
 VALUES (1, 2, DATETIME('now'), DATETIME('now'));
+
+/* LIKES */
+INSERT INTO likes (user_id, post_id, createdAt, updatedAt)
+VALUES (2, 1, DATETIME('now'), DATETIME('now'))

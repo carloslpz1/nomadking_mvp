@@ -83,19 +83,33 @@ const getPostByFollow = async (req, res) => {
     const userId = req.params.user_id
 
     const posts = await sequelize.query(`
-      SELECT p.*
+      SELECT p.id, p.content, p.user_id, p.createdAt,
+      (SELECT s.url FROM storages s WHERE s.id=p.media_id) AS media,
+      (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id) AS "likes",
+      EXISTS (SELECT 1 FROM likes l WHERE l.post_id=p.id AND l.user_id=${userId}) AS liked,
+      (SELECT COUNT(*) FROM comments c WHERE c.post_id=p.id) AS "comments"
       FROM posts p
-      JOIN follows f ON p.user_id=f.followed_user_id
-      WHERE f.follower_user_id=${userId}
+      JOIN follows f ON (p.user_id=f.followed_user_id OR p.user_id=${userId})
+      WHERE f.follower_user_id=${userId} AND p.status='active'
       ORDER BY p.createdAt DESC
       LIMIT ${(page - 1) * pageSize}, ${pageSize};  
     `, { type: QueryTypes.SELECT })
 
+    const postsData = []
+    for (const post of posts) {
+      const users = await sequelize.query(`
+        SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
+        FROM users u, storages s
+        WHERE u.id=${post.user_id} AND u.avatar=s.id
+      `, { type: QueryTypes.SELECT })
+      postsData.push({ ...post, user_id: undefined, user: users[0] })
+    }
+
     const queryTotalPosts = await sequelize.query(`
       SELECT COUNT(p.id) AS totalPosts
       FROM posts p
-      JOIN follows f ON p.user_id=f.followed_user_id
-      WHERE f.follower_user_id=${userId};  
+      JOIN follows f ON (p.user_id=f.followed_user_id OR p.user_id=${userId})
+      WHERE f.follower_user_id=${userId} AND p.status='active';  
     `, { type: QueryTypes.SELECT })
 
     const totalPosts = queryTotalPosts[0].totalPosts
@@ -108,9 +122,9 @@ const getPostByFollow = async (req, res) => {
       items_per_page: pageSize
     }
 
-    handleHttpSuccess(res, 'Here are all the post from this user', 200, posts, pagination)
+    handleHttpSuccess(res, 'Here are all the post for this user', 200, postsData, pagination)
   } catch (e) {
-    handleHttpError(res, 'Error with getting posts by user')
+    handleHttpError(res, 'Error with getting posts by user follow')
   }
 }
 
