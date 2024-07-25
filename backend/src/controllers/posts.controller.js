@@ -76,23 +76,32 @@ const getPostsByUser = async (req, res) => {
 
 const getPostByFollow = async (req, res) => {
   try {
-    // TODO: take this params from request.params
-    const page = 1
-    const pageSize = 10
+    const page = req.query.page && Number(req.query.page) ? Number(req.query.page) : 1
+    const pageSize = req.query.page_size && Number(req.query.page_size) ? Number(req.query.page_size) : 10
 
     const userId = req.params.user_id
 
     const posts = await sequelize.query(`
+      SELECT *
+      FROM (SELECT p.id, p.content, p.user_id, p.createdAt,
+      (SELECT s.url FROM storages s WHERE s.id=p.media_id) AS media,
+      (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id) AS "likes",
+      EXISTS (SELECT 1 FROM likes l WHERE l.post_id=p.id AND l.user_id=${userId}) AS liked,
+      (SELECT COUNT(*) FROM comments c WHERE c.post_id=p.id) AS "comments"
+      FROM posts p
+      WHERE p.user_id=${userId} AND p.status="active"
+      UNION
       SELECT p.id, p.content, p.user_id, p.createdAt,
       (SELECT s.url FROM storages s WHERE s.id=p.media_id) AS media,
       (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id) AS "likes",
       EXISTS (SELECT 1 FROM likes l WHERE l.post_id=p.id AND l.user_id=${userId}) AS liked,
       (SELECT COUNT(*) FROM comments c WHERE c.post_id=p.id) AS "comments"
       FROM posts p
-      JOIN follows f ON (p.user_id=f.followed_user_id OR p.user_id=${userId})
-      WHERE f.follower_user_id=${userId} AND p.status='active'
-      ORDER BY p.createdAt DESC
-      LIMIT ${(page - 1) * pageSize}, ${pageSize};  
+      JOIN follows f ON p.user_id=f.followed_user_id
+      WHERE f.follower_user_id=${userId} AND p.status="active"
+      ) AS union_posts
+      ORDER BY union_posts.createdAt DESC
+      LIMIT ${(page - 1) * pageSize}, ${pageSize};
     `, { type: QueryTypes.SELECT })
 
     const postsData = []
@@ -106,10 +115,16 @@ const getPostByFollow = async (req, res) => {
     }
 
     const queryTotalPosts = await sequelize.query(`
-      SELECT COUNT(p.id) AS totalPosts
+      SELECT COUNT(*) AS totalPosts
+      FROM (SELECT p.id
       FROM posts p
-      JOIN follows f ON (p.user_id=f.followed_user_id OR p.user_id=${userId})
-      WHERE f.follower_user_id=${userId} AND p.status='active';  
+      WHERE p.user_id=${userId} AND p.status="active"
+      UNION
+      SELECT p.id
+      FROM posts p
+      JOIN follows f ON p.user_id=f.followed_user_id
+      WHERE f.follower_user_id=${userId} AND p.status="active"
+      ) AS union_posts;
     `, { type: QueryTypes.SELECT })
 
     const totalPosts = queryTotalPosts[0].totalPosts
