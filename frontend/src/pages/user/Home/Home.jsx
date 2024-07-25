@@ -40,7 +40,7 @@ const Home = () => {
       </section>
       <section className="post-side">
         <div className="create-post">
-          <CreatePostCard />
+          <CreatePostCard userData={user} />
         </div>
         <PostsLayout />
       </section>

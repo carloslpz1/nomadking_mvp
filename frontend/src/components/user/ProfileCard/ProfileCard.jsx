@@ -5,6 +5,7 @@ import Avatar from "boring-avatars";
 import { names } from '../../../data/boringAvatars'
 import cover from '../../../assets/images/cover.jpg'
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 // import profile from '../../../assets/images/profileImg.jpg'
 
 const ProfileCard = ({ userData }) => {
@@ -41,8 +42,10 @@ const ProfileCard = ({ userData }) => {
       </div>
 
       <div className="profile-name">
-        <span>{userData.name} {userData.surname}</span>
-        <span>Senior UI/UX Designer</span>
+        <span className="name">{userData.name} {userData.surname}</span>
+        {userData.career
+          && <span>{userData.career}</span>
+        }
       </div>
 
       <div className="follow-status">
@@ -61,6 +64,8 @@ const ProfileCard = ({ userData }) => {
           </div>
         </div>
         <div className="hl"></div>
+
+        <button><Link to={`/profile/${userData.username}`}>See profile</Link></button>
       </div>
     </div>
   )
@@ -73,6 +78,7 @@ ProfileCard.propTypes = {
     surname: PropTypes.string,
     username: PropTypes.string,
     email: PropTypes.string,
+    career: PropTypes.string,
     age: PropTypes.number,
     birthdate: PropTypes.string,
     avatar: PropTypes.string,

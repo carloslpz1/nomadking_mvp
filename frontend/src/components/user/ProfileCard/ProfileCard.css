@@ -60,7 +60,7 @@
   font-weight: 300;
 }
 
-.profile-card .profile-name span:nth-last-of-type(2) {
+.profile-card .profile-name .name {
   font-weight: 500;
 }
 
@@ -114,4 +114,8 @@
   color: var(--red-1);
   font-weight: 500;
   cursor: pointer;
+}
+
+.profile-card button a {
+  color: var(--fg-btn-1);
 }

@@ -20,7 +20,7 @@
   flex-direction: column;
   gap: 8px;
   height: 666px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   background-color: var(--bg-color);
 }
 

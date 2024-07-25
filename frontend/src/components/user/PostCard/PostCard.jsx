@@ -8,6 +8,7 @@ import {
   IoHeart,
   IoHeartOutline
 } from "react-icons/io5";
+import { Link } from 'react-router-dom';
 
 const PostCard = ({ data }) => {
   const comment = false
@@ -41,12 +42,12 @@ const PostCard = ({ data }) => {
       }
 
       <div className="detail">
-        <div className="avatar">
+        <Link to={`/profile/${data.user.username}`} className="avatar">
           <img src={data.user.avatar} alt="avatar" />
-        </div>
+        </Link>
         <div className="user-info">
-          <span><b>{data.user.name} {data.user.surname}</b></span>
-          <span>@{data.user.username}</span>
+          <Link to={`/profile/${data.user.username}`}><b>{data.user.name} {data.user.surname}</b></Link>
+          <Link to={`/profile/${data.user.username}`}>@{data.user.username}</Link>
         </div>
         <span className="date">{timeAgo(new Date(data.createdAt))}</span>
       </div>

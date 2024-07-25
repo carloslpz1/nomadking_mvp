@@ -33,6 +33,10 @@
   flex-direction: column;
 }
 
+.detail .user-info a {
+  color: var(--fg-color-1);
+}
+
 .detail .date {
   align-self: flex-start;
   margin-left: auto;
