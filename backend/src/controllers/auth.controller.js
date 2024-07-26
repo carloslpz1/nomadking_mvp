@@ -176,6 +176,8 @@ const checkToken = async (req, res) => {
       ]
     })
 
+    user.set('password', undefined, { strict: false })
+
     handleHttpSuccess(res, 'Valid token', 200, user, undefined, token)
   } catch (e) {
     handleHttpError(res, 'Error with the token verification')

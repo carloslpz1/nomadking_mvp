@@ -24,7 +24,7 @@ const getAllPosts = async (req, res) => {
 
     const pagination = {
       current_page: page,
-      tota_pages: totalPages,
+      total_pages: totalPages,
       total_items: totalPosts,
       items_per_page: pageSize
     }
@@ -63,7 +63,7 @@ const getPostsByUser = async (req, res) => {
 
     const pagination = {
       current_page: page,
-      tota_pages: totalPages,
+      total_pages: totalPages,
       total_items: totalPosts,
       items_per_page: pageSize
     }
@@ -132,7 +132,7 @@ const getPostByFollow = async (req, res) => {
 
     const pagination = {
       current_page: page,
-      tota_pages: totalPages,
+      total_pages: totalPages,
       total_items: totalPosts,
       items_per_page: pageSize
     }
@@ -146,9 +146,9 @@ const getPostByFollow = async (req, res) => {
 const createPost = async (req, res) => {
   // TODO: add validation so that the user id and token data match
   try {
-    req = matchedData(req)
+    const data = matchedData(req)
 
-    console.log(req)
+    PostModel.create({ ...data, status: 'active' })
     handleHttpSuccess(res, 'Post created', 201)
   } catch (e) {
     handleHttpError(res, 'Error with creating the post')
@@ -160,7 +160,29 @@ const updatePost = async (req, res) => {
 }
 
 const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.post_id
 
+    if (!postId) {
+      handleHttpError(res, 'Param post_id is missing.')
+    }
+
+    const post = await PostModel.findOne({
+      where: { id: postId }
+    })
+
+    if (!post) {
+      handleHttpError(res, 'Post does not exists', 403)
+    }
+
+    post.status = 'inactive'
+    await post.save()
+
+    handleHttpSuccess(res, 'Post successfuly deleted', 200, post)
+
+  } catch (e) {
+    handleHttpError(res, 'Error deleting the post')
+  }
 }
 
 module.exports = { getAllPosts, getPostsByUser, getPostByFollow, createPost, updatePost, deletePost }
