@@ -8,9 +8,12 @@ import {
   IoHeart,
   IoHeartOutline
 } from "react-icons/io5";
+import { FaTimes } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const PostCard = ({ data }) => {
+  const [showMedia, setShowMedia] = useState(false)
   const comment = false
   const timeAgo = (date) => {
     const now = new Date()
@@ -37,7 +40,7 @@ const PostCard = ({ data }) => {
   return (
     <div className="post">
       {data.media
-        ? <img src={data.media} alt="Image media" />
+        ? <img src={data.media} alt="Image media" onClick={() => setShowMedia(true)} />
         : <></>
       }
 
@@ -90,6 +93,11 @@ const PostCard = ({ data }) => {
         : <></>
       }
 
+      <div className={`full-image-container ${showMedia && 'show'}`}>
+        <FaTimes onClick={() => setShowMedia(false)} />
+        <img src={data.media} alt="Image media" />
+      </div>
+
     </div>
   )
 }
@@ -101,7 +109,7 @@ PostCard.propTypes = {
     media: PropTypes.string,
     createdAt: PropTypes.string,
     likes: PropTypes.number,
-    liked: PropTypes.bool,
+    liked: PropTypes.number,
     user: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,

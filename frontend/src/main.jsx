@@ -5,6 +5,7 @@ import ThemeProvider from './contexts/ThemeProvider.jsx'
 import AuthProvider from './contexts/AuthProvider.jsx'
 import DocumentTitleProvider from './contexts/DocumentTitleProvider.jsx'
 import ToastProvider from './contexts/ToastProvider.jsx'
+import ScrollProvider from './contexts/ScrollProvider.jsx'
 import App from './App.jsx'
 import './index.css'
 
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <AuthProvider>
           <DocumentTitleProvider>
             <ToastProvider>
-              <App />
+              <ScrollProvider>
+                <App />
+              </ScrollProvider>
             </ToastProvider>
           </DocumentTitleProvider>
         </AuthProvider>

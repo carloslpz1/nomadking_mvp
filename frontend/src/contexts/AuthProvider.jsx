@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
 
       if (data.token) {
         localStorage.setItem('token', data.token)
-        setUser(data.data.items)
+        setUser({ ...data.data.items, token: data.token })
       }
 
       return { status: 'success', message: 'You logged successfuly.' }
