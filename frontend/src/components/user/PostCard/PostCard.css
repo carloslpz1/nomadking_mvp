@@ -54,13 +54,51 @@
   gap: 20px;
 }
 
-.post .post-react .likes,
-.post .post-react .comments,
-.post .post-react .share {
+.post .post-react .action {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
+}
+
+.post .post-react .post-menu {
+  position: relative;
+}
+
+.post .post-react .post-menu .options {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--bg-card-color);
+  -webkit-box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+
+.dark .post .post-react .post-menu .options {
+  background-color: var(--bg-card-color);
+  -webkit-box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);
+  -moz-box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);
+  box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);
+}
+
+.post .post-react .post-menu .options .option {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.post .post-react .post-menu .options .option:hover {
+  background-color: var(--bg-card-hover);
 }
 
 .post .post-react svg {

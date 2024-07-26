@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
         },
       })
         .then((response) => response.json())
-        .then((data) => setUser(data.data.items))
+        .then((data) => setUser({ ...data.data.items, token: token }))
         .catch((e) => {
           logout()
           console.error(e)

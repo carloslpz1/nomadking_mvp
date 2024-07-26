@@ -1,19 +1,28 @@
-import './PostCard.css'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import './PostCard.css'
 
 // Icons
 import {
+  IoClose,
   IoChatbubbleOutline,
   IoPaperPlaneOutline,
   IoHeart,
-  IoHeartOutline
+  IoHeartOutline,
+  IoEllipsisHorizontalOutline,
+  IoTrashOutline
 } from "react-icons/io5";
-import { FaTimes } from 'react-icons/fa'
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import OutsideClickHandler from '../../handlers/OutsideClickHandler';
+import useAuth from '../../../hooks/useAuth';
+import useToast from '../../../hooks/useToast';
 
 const PostCard = ({ data }) => {
   const [showMedia, setShowMedia] = useState(false)
+  const [postMenuOpen, setPostMenuOpen] = useState(false)
+  const { addToast } = useToast()
+  const { user } = useAuth()
+  const apiUrl = import.meta.env.VITE_API_URL
   const comment = false
   const timeAgo = (date) => {
     const now = new Date()
@@ -37,6 +46,29 @@ const PostCard = ({ data }) => {
     return `${Math.round(secondsPast / 31536000)} years ago`;
   }
 
+  const handleDelete = async () => {
+    console.log(user)
+    try {
+      const response = await fetch(`${apiUrl}/posts/${data.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        }
+      })
+
+      const responseData = await response.json()
+      console.log(responseData)
+
+      if (responseData.status == 'success') {
+        addToast('Post deleted', 5000)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+
+  }
+
   return (
     <div className="post">
       {data.media
@@ -58,16 +90,30 @@ const PostCard = ({ data }) => {
       <span className="content">{data.content}</span>
 
       <div className="post-react">
-        <div className="likes">
+        <div className="action">
           {data.liked ? <IoHeart className="liked" /> : <IoHeartOutline />}
           <span>{data.likes}</span>
         </div>
-        <div className="comments">
+        <div className="action">
           <IoChatbubbleOutline />
           <span>{data.comments}</span>
         </div>
-        <div className="share">
+        <div className="action">
           <IoPaperPlaneOutline />
+        </div>
+        <div className="action post-menu">
+          <OutsideClickHandler onOutsideClick={() => setPostMenuOpen(false)}>
+            <IoEllipsisHorizontalOutline onClick={() => setPostMenuOpen((prev) => !prev)} />
+            <div className="options" style={postMenuOpen ? { display: 'flex' } : { display: 'none' }}>
+              {user.id == data.user.id
+                ? <div className="option" onClick={handleDelete}>
+                  <IoTrashOutline />
+                  <span>Delete</span>
+                </div>
+                : <></>
+              }
+            </div>
+          </OutsideClickHandler>
         </div>
       </div>
 
@@ -94,7 +140,7 @@ const PostCard = ({ data }) => {
       }
 
       <div className={`full-image-container ${showMedia && 'show'}`}>
-        <FaTimes onClick={() => setShowMedia(false)} />
+        <IoClose onClick={() => setShowMedia(false)} />
         <img src={data.media} alt="Image media" />
       </div>
 

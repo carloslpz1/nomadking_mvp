@@ -61,7 +61,7 @@ const CreatePostCard = ({ userData }) => {
             const response = await fetch(`${apiUrl}/posts`, {
               method: 'POST',
               headers: {
-                'Authorization': user.token,
+                'Authorization': `Bearer ${user.token}`,
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify(body)
@@ -81,7 +81,7 @@ const CreatePostCard = ({ userData }) => {
           const response = await fetch(`${apiUrl}/posts`, {
             method: 'POST',
             headers: {
-              'Authorization': user.token,
+              'Authorization': `Bearer ${user.token}`,
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(body)
