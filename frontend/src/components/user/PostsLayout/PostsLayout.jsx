@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import PostCard from '../PostCard/PostCard'
 import useAuth from '../../../hooks/useAuth'
 import useScroll from '../../../hooks/useScroll'
+import useToast from '../../../hooks/useToast'
 import Spinner from '../../common/Spinner/Spinner'
 import './PostsLayout.css'
 
@@ -15,6 +16,7 @@ const PostsLayout = () => {
   const [errors, setErrors] = useState([])
   const { user } = useAuth()
   const { isBottom } = useScroll()
+  const { addToast } = useToast()
   const apiUrl = import.meta.env.VITE_API_URL
 
   const getPostsByFollow = useCallback(async (page = null) => {
@@ -55,11 +57,34 @@ const PostsLayout = () => {
     }
   }, [isBottom, getPostsByFollow])
 
+  const handleDelete = async (id) => {
+    console.log(user)
+    try {
+      const response = await fetch(`${apiUrl}/posts/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        }
+      })
+
+      const responseData = await response.json()
+      console.log(responseData)
+
+      if (responseData.status == 'success') {
+        setPosts(prevPosts => prevPosts.filter((post) => post.id != id))
+        addToast('Post deleted', 5000)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
     <div className="posts">
       {posts.length > 0
         ? posts?.map((post) => {
-          return <PostCard key={post.id} data={post} />
+          return <PostCard key={post.id} data={post} handleDelete={handleDelete} />
         })
         : <p className="info-message">{'Nothing to show here. Post something or start following some people you know.'}</p>
       }

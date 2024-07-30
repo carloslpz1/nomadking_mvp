@@ -17,7 +17,8 @@ import OutsideClickHandler from '../../handlers/OutsideClickHandler';
 import useAuth from '../../../hooks/useAuth';
 import useToast from '../../../hooks/useToast';
 
-const PostCard = ({ data }) => {
+const PostCard = ({ data, handleDelete }) => {
+  const [postData, setPostData] = useState(data)
   const [showMedia, setShowMedia] = useState(false)
   const [postMenuOpen, setPostMenuOpen] = useState(false)
   const { addToast } = useToast()
@@ -46,57 +47,84 @@ const PostCard = ({ data }) => {
     return `${Math.round(secondsPast / 31536000)} years ago`;
   }
 
-  const handleDelete = async () => {
-    console.log(user)
+  // const handleDelete = async () => {
+  //   console.log(user)
+  //   try {
+  //     const response = await fetch(`${apiUrl}/posts/${data.id}`, {
+  //       method: 'DELETE',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${user.token}`,
+  //       }
+  //     })
+
+  //     const responseData = await response.json()
+  //     console.log(responseData)
+
+  //     if (responseData.status == 'success') {
+  //       addToast('Post deleted', 5000)
+  //     }
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+
+  // }
+
+  const handleLike = async () => {
     try {
-      const response = await fetch(`${apiUrl}/posts/${data.id}`, {
-        method: 'DELETE',
+      const response = await fetch(`${apiUrl}/likes`, {
+        method: postData.liked ? 'DELETE' : 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`,
-        }
+          'Authorization': `Bearer ${user.token}`
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          post_id: data.id
+        })
       })
 
       const responseData = await response.json()
-      console.log(responseData)
 
       if (responseData.status == 'success') {
-        addToast('Post deleted', 5000)
+        const liked = postData.liked == 0 ? 1 : 0
+        const likes = postData.liked ? postData.likes - 1 : postData.likes + 1
+
+        setPostData({ ...data, liked, likes })
       }
     } catch (e) {
       console.error(e)
     }
-
   }
 
   return (
     <div className="post">
-      {data.media
-        ? <img src={data.media} alt="Image media" onClick={() => setShowMedia(true)} />
+      {postData.media
+        ? <img src={postData.media} alt="Image media" onClick={() => setShowMedia(true)} />
         : <></>
       }
 
       <div className="detail">
-        <Link to={`/profile/${data.user.username}`} className="avatar">
-          <img src={data.user.avatar} alt="avatar" />
+        <Link to={`/profile/${postData.user.username}`} className="avatar">
+          <img src={postData.user.avatar} alt="avatar" />
         </Link>
         <div className="user-info">
-          <Link to={`/profile/${data.user.username}`}><b>{data.user.name} {data.user.surname}</b></Link>
-          <Link to={`/profile/${data.user.username}`}>@{data.user.username}</Link>
+          <Link to={`/profile/${postData.user.username}`}><b>{postData.user.name} {postData.user.surname}</b></Link>
+          <Link to={`/profile/${postData.user.username}`}>@{postData.user.username}</Link>
         </div>
-        <span className="date">{timeAgo(new Date(data.createdAt))}</span>
+        <span className="date">{timeAgo(new Date(postData.createdAt))}</span>
       </div>
 
-      <span className="content">{data.content}</span>
+      <span className="content">{postData.content}</span>
 
       <div className="post-react">
-        <div className="action">
-          {data.liked ? <IoHeart className="liked" /> : <IoHeartOutline />}
-          <span>{data.likes}</span>
+        <div className="action" onClick={handleLike}>
+          {postData.liked ? <IoHeart className="liked" /> : <IoHeartOutline />}
+          <span>{postData.likes}</span>
         </div>
         <div className="action">
           <IoChatbubbleOutline />
-          <span>{data.comments}</span>
+          <span>{postData.comments}</span>
         </div>
         <div className="action">
           <IoPaperPlaneOutline />
@@ -105,8 +133,8 @@ const PostCard = ({ data }) => {
           <OutsideClickHandler onOutsideClick={() => setPostMenuOpen(false)}>
             <IoEllipsisHorizontalOutline onClick={() => setPostMenuOpen((prev) => !prev)} />
             <div className="options" style={postMenuOpen ? { display: 'flex' } : { display: 'none' }}>
-              {user.id == data.user.id
-                ? <div className="option" onClick={handleDelete}>
+              {user.id == postData.user.id
+                ? <div className="option" onClick={() => handleDelete(postData.id)}>
                   <IoTrashOutline />
                   <span>Delete</span>
                 </div>
@@ -124,16 +152,16 @@ const PostCard = ({ data }) => {
           <div className="comment">
             <div className="detail">
               <div className="avatar">
-                <img src={data.user.avatar} alt="avatar" />
+                <img src={postData.user.avatar} alt="avatar" />
               </div>
               <div className="user-info">
-                <span><b>{data.user.name} {data.user.surname}</b></span>
-                <span>@{data.user.username}</span>
+                <span><b>{postData.user.name} {postData.user.surname}</b></span>
+                <span>@{postData.user.username}</span>
               </div>
-              <span className="date">{timeAgo(new Date(data.createdAt))}</span>
+              <span className="date">{timeAgo(new Date(postData.createdAt))}</span>
             </div>
 
-            <span className="content">{data.content}</span>
+            <span className="content">{postData.content}</span>
           </div>
         </>
         : <></>
@@ -141,7 +169,7 @@ const PostCard = ({ data }) => {
 
       <div className={`full-image-container ${showMedia && 'show'}`}>
         <IoClose onClick={() => setShowMedia(false)} />
-        <img src={data.media} alt="Image media" />
+        <img src={postData.media} alt="Image media" />
       </div>
 
     </div>
@@ -164,7 +192,8 @@ PostCard.propTypes = {
       avatar: PropTypes.string
     }),
     comments: PropTypes.number,
-  })
+  }),
+  handleDelete: PropTypes.func
 }
 
 export default PostCard
