@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize')
 const { sequelize } = require("../config/database")
-const { UserModel, PostModel, StorageModel } = require('../models')
+const { UserModel, PostModel, StorageModel, FollowModel } = require('../models')
 const { matchedData } = require('express-validator')
 const { handleHttpSuccess, handleHttpError } = require('../utils/handleResponse')
 const { verifyToken } = require('../utils/handleJwt')
+const { QueryTypes } = require("sequelize")
 
 const Op = Sequelize.Op
 
@@ -172,6 +173,52 @@ const findUsersByUsername = async (req, res) => {
   }
 }
 
+const getFollowers = async (req, res) => {
+  try {
+    const page = req.query.page && Number(req.query.page) ? Number(req.query.page) : 1
+    const pageSize = req.query.page_size && Number(req.query.page_size) ? Number(req.query.page_size) : 4
+    const followingBack = req.query.follow_back ? (req.query.follow_back === 'true' ? true : req.query.follow_back === 'false' ? false : null) : null
+
+    const userId = req.params.user_id
+
+    const token = req.headers.authorization.split(' ').pop()
+    const dataToken = await verifyToken(token)
+
+    let users = []
+
+    if (followingBack == null) {
+      users = await sequelize.query(`
+        SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
+        FROM users u, follows f, storages s
+        WHERE f.followed_user_id=${userId} AND u.id=follower_user_id AND s.id=u.avatar
+        ORDER BY f.createdAt DESC
+        LIMIT ${(page - 1) * pageSize}, ${pageSize};
+        `, { type: QueryTypes.SELECT })
+    } else {
+      users = await sequelize.query(`
+        SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
+        FROM users u, storages s
+        JOIN follows f1 ON u.id=f1.follower_user_id
+        LEFT JOIN follows f2 ON f1.follower_user_id=f2.followed_user_id AND f1.followed_user_id=f2.follower_user_id
+        WHERE f1.followed_user_id=${userId} AND f2.follower_user_id IS NULL AND s.id=u.avatar
+        ORDER BY f1.createdAt DESC
+        LIMIT ${(page - 1) * pageSize}, ${pageSize};
+      `, { type: QueryTypes.SELECT })
+    }
+
+
+    handleHttpSuccess(res, 'We find some users', 200, users)
+  } catch (e) {
+    console.log(e)
+    handleHttpError(res, 'Error while getting the followers')
+    return
+  }
+}
+
+const getFollowed = async (req, res) => {
+
+}
+
 const getUsers = async (req, res) => {
   try {
     const data = await UserModel.findAll({})
@@ -203,4 +250,4 @@ const updateUser = async (req, res) => {
 
 const deleteUser = (req, res) => { }
 
-module.exports = { getUserByUsername, checkUsername, findUsersByUsername, updateUser }
+module.exports = { getUserByUsername, checkUsername, findUsersByUsername, getFollowers, getFollowed, updateUser }
