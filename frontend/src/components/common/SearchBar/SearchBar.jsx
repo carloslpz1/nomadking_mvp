@@ -111,7 +111,11 @@ const SearchBar = () => {
         type="search"
         placeholder="#Explore"
         onFocus={handleSearch}
-        onBlur={() => setShowResults(false)}
+        onBlur={() => {
+          setTimeout(() => {
+            setShowResults(false)
+          }, 100)
+        }}
         onChange={handleSearch}
         value={searchInput}
       />
