@@ -119,3 +119,7 @@
 .profile-card button a {
   color: var(--fg-btn-1);
 }
+
+.profile-card button a:hover {
+  color: var(--fg-btn-1-hover);
+}
