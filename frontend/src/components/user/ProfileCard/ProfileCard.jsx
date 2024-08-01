@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 // import profile from '../../../assets/images/profileImg.jpg'
 
-const ProfileCard = ({ userData }) => {
+const ProfileCard = ({ userData, profile }) => {
   const [boringAvatarId, setBoringAvatarId] = useState(null)
 
   useEffect(() => {
@@ -62,10 +62,24 @@ const ProfileCard = ({ userData }) => {
             <span>{userData.following}</span>
             <span>Follow</span>
           </div>
+
+          {profile
+            ? <><div className="vl"></div>
+
+              <div className="follow">
+                <span>{userData.num_posts}</span>
+                <span>Posts</span>
+              </div>
+            </>
+            : <></>
+          }
         </div>
         <div className="hl"></div>
 
-        <button><Link to={`/profile/${userData.username}`}>See profile</Link></button>
+        {!profile
+          ? <button><Link to={`/profile/${userData.username}`}>See profile</Link></button>
+          : <></>
+        }
       </div>
     </div>
   )
@@ -84,8 +98,10 @@ ProfileCard.propTypes = {
     avatar: PropTypes.string,
     banner: PropTypes.string,
     followers: PropTypes.number,
-    following: PropTypes.number
-  })
+    following: PropTypes.number,
+    num_posts: PropTypes.number
+  }),
+  profile: PropTypes.bool
 };
 
 export default ProfileCard

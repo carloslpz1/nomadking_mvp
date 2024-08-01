@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ConfirmationModal from '../../common/ConfirmationModal/ConfirmationModal';
+import OutsideClickHandler from '../../handlers/OutsideClickHandler';
+import useAuth from '../../../hooks/useAuth';
+import useToast from '../../../hooks/useToast';
 import PropTypes from 'prop-types';
 import './PostCard.css'
 
@@ -13,14 +17,12 @@ import {
   IoEllipsisHorizontalOutline,
   IoTrashOutline
 } from "react-icons/io5";
-import OutsideClickHandler from '../../handlers/OutsideClickHandler';
-import useAuth from '../../../hooks/useAuth';
-import useToast from '../../../hooks/useToast';
 
 const PostCard = ({ data, handleDelete }) => {
   const [postData, setPostData] = useState(data)
   const [showMedia, setShowMedia] = useState(false)
   const [postMenuOpen, setPostMenuOpen] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const { addToast } = useToast()
   const { user } = useAuth()
   const apiUrl = import.meta.env.VITE_API_URL
@@ -97,6 +99,16 @@ const PostCard = ({ data, handleDelete }) => {
     }
   }
 
+  const confirmAction = () => {
+    handleDelete(postData.id)
+    setShowModal(false)
+  }
+
+  const cancelAction = () => {
+    console.log('close modal')
+    setShowModal(false)
+  }
+
   return (
     <div className="post">
       {postData.media
@@ -134,7 +146,10 @@ const PostCard = ({ data, handleDelete }) => {
             <IoEllipsisHorizontalOutline onClick={() => setPostMenuOpen((prev) => !prev)} />
             <div className="options" style={postMenuOpen ? { display: 'flex' } : { display: 'none' }}>
               {user.id == postData.user.id
-                ? <div className="option" onClick={() => handleDelete(postData.id)}>
+                ? <div className="option" onClick={() => {
+                  setShowModal(true)
+                  setPostMenuOpen(false)
+                }}>
                   <IoTrashOutline />
                   <span>Delete</span>
                 </div>
@@ -171,6 +186,15 @@ const PostCard = ({ data, handleDelete }) => {
         <IoClose onClick={() => setShowMedia(false)} />
         <img src={postData.media} alt="Image media" />
       </div>
+
+      {showModal &&
+        <ConfirmationModal
+          title="Delete post"
+          message="Are you sure you want to delete this post?"
+          onConfirm={confirmAction}
+          onCancel={cancelAction}
+        />
+      }
 
     </div>
   )

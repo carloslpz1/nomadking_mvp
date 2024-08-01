@@ -1,0 +1,26 @@
+.configcard-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: var(--bg-card-color);
+}
+
+.configcard-container .info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.configcard-container .info-item svg {
+  font-size: 18px;
+}
+
+.configcard-container .info-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}

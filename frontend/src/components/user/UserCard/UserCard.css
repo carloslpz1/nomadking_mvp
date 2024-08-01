@@ -1,0 +1,58 @@
+.follower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 4px;
+  border-radius: 8px;
+}
+
+.follower:hover {
+  background-color: var(--bg-card-color);
+}
+
+.follower .user-info {
+  display: flex;
+  gap: 8px;
+  color: var(--fg-color-1);
+  cursor: pointer;
+}
+
+.follower .follower-img {
+  width: 3.2rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.follower .name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.follower .name > span:nth-last-of-type(2) {
+  font-size: 14px;
+}
+
+.follower .name > span:nth-last-of-type(1) {
+  font-weight: 500;
+}
+
+.follower .fc-button {
+  height: 2rem;
+  padding: 0 20px;
+  text-transform: capitalize;
+  letter-spacing: 1.2px;
+}
+
+.follower .followed-check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px;
+}
+
+.follower .followed-check svg {
+  font-size: 18px;
+}

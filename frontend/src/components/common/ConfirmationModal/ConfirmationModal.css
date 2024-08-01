@@ -1,0 +1,46 @@
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.modal-container .modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 300px;
+  padding: 16px;
+  background-color: var(--bg-card-color);
+}
+
+.modal-container .modal > svg {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-container .modal .modal-header {
+  padding: 8px 0;
+}
+
+.modal-container .modal .modal-content {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bg-card-2-color);
+}
+
+.modal-container .modal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

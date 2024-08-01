@@ -4,12 +4,13 @@ import useAuth from '../../../hooks/useAuth'
 import useScroll from '../../../hooks/useScroll'
 import useToast from '../../../hooks/useToast'
 import Spinner from '../../common/Spinner/Spinner'
+import PropTypes from 'prop-types';
 import './PostsLayout.css'
 
 // Mocking Data
 // import { postsData } from '../../../data/user/PostsData'
 
-const PostsLayout = () => {
+const PostsLayout = ({ userId, myPost }) => {
   const [posts, setPosts] = useState([])
   const [pagination, setPagination] = useState({})
   const [isLoading, setIsLoading] = useState(false)
@@ -23,7 +24,23 @@ const PostsLayout = () => {
     try {
       setIsLoading(true)
 
-      const response = await fetch(`${apiUrl}/posts/${user.id}/follow${page ? `?page=${page}` : ''}`)
+      let response
+      if (myPost) {
+        console.log(`Pidiendo la data de ${userId}`)
+        response = await fetch(`${apiUrl}/posts/${userId ? userId : user.id}${page ? `?page=${page}` : ''}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        })
+      } else {
+        response = await fetch(`${apiUrl}/posts/${user.id}/follow${page ? `?page=${page}` : ''}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        })
+      }
       const data = await response.json()
 
       if (data.status == 'error') {
@@ -41,7 +58,7 @@ const PostsLayout = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [apiUrl, user.id])
+  }, [apiUrl, user, userId, myPost])
 
   useEffect(() => {
     getPostsByFollow()
@@ -95,5 +112,10 @@ const PostsLayout = () => {
     </div>
   )
 }
+
+PostsLayout.propTypes = {
+  userId: PropTypes.number,
+  myPost: PropTypes.bool
+};
 
 export default PostsLayout
