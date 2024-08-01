@@ -46,3 +46,17 @@ SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
 FROM users u, storages s
 JOIN posts p ON u.id=p.user_id
 WHERE u.id=3 AND u.avatar=s.id
+
+DELETE FROM follows WHERE follower_user_id=1 AND followed_user_id=5
+
+SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
+FROM users u, follows f, storages s
+WHERE f.followed_user_id=1 AND u.id=follower_user_id AND s.id=u.avatar
+ORDER BY f.createdAt DESC
+
+SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
+FROM users u, storages s
+JOIN follows f1 ON u.id=f1.follower_user_id
+LEFT JOIN follows f2 ON f1.follower_user_id=f2.followed_user_id AND f1.followed_user_id=f2.follower_user_id
+WHERE f1.followed_user_id=1 AND f2.follower_user_id IS NULL AND s.id=u.avatar
+ORDER BY f1.createdAt DESC

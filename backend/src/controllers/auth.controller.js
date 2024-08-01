@@ -46,6 +46,14 @@ const loginUser = async (req, res) => {
               WHERE follows.follower_user_id = users.id
             )`),
             'following'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM posts AS p
+              WHERE p.user_id=users.id AND p.status='active'
+            )`),
+            'num_posts'
           ]
         ]
       },
@@ -164,6 +172,14 @@ const checkToken = async (req, res) => {
               WHERE follows.follower_user_id = users.id
             )`),
             'following'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM posts AS p
+              WHERE p.user_id=users.id AND p.status='active'
+            )`),
+            'num_posts'
           ]
         ]
       },

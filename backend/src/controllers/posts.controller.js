@@ -37,28 +37,44 @@ const getAllPosts = async (req, res) => {
 
 const getPostsByUser = async (req, res) => {
   try {
-    // TODO: take this params from request.params
-    const page = 1
-    const pageSize = 10
+    const page = req.query.page && Number(req.query.page) ? Number(req.query.page) : 1
+    const pageSize = req.query.page_size && Number(req.query.page_size) ? Number(req.query.page_size) : 10
 
     const userId = req.params.user_id
 
-    const posts = await PostModel.findAll({
-      where: {
-        user_id: userId
-      },
-      order: [
-        ['createdAt', 'DESC']
-      ],
-      limit: pageSize,
-      offset: (page - 1) * pageSize
-    })
+    // token
+    const token = req.headers.authorization.split(' ').pop()
+    const dataToken = await verifyToken(token)
 
-    const totalPosts = await PostModel.count({
-      where: {
-        user_id: userId
-      },
-    })
+    const posts = await sequelize.query(`
+      SELECT p.id, p.content, p.user_id, p.createdAt,
+      (SELECT s.url FROM storages s WHERE s.id=p.media_id) AS media,
+      (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id) AS "likes",
+      EXISTS (SELECT 1 FROM likes l WHERE l.post_id=p.id AND l.user_id=${dataToken.id}) AS liked,
+      (SELECT COUNT(*) FROM comments c WHERE c.post_id=p.id) AS "comments"
+      FROM posts p
+      WHERE p.user_id=${userId} AND p.status="active"
+      ORDER BY p.createdAt DESC
+      LIMIT ${(page - 1) * pageSize}, ${pageSize};
+    `, { type: QueryTypes.SELECT })
+
+    const postsData = []
+    for (const post of posts) {
+      const users = await sequelize.query(`
+        SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
+        FROM users u, storages s
+        WHERE u.id=${post.user_id} AND u.avatar=s.id
+      `, { type: QueryTypes.SELECT })
+      postsData.push({ ...post, user_id: undefined, user: users[0] })
+    }
+
+    const queryTotalPosts = await sequelize.query(`
+      SELECT COUNT(*) AS totalPosts
+      FROM posts p
+      WHERE p.user_id=${userId} AND p.status="active"
+    `, { type: QueryTypes.SELECT })
+
+    const totalPosts = queryTotalPosts[0].totalPosts
     const totalPages = Math.ceil(totalPosts / pageSize)
 
     const pagination = {
@@ -68,7 +84,7 @@ const getPostsByUser = async (req, res) => {
       items_per_page: pageSize
     }
 
-    handleHttpSuccess(res, 'Here are all the post from this user', 200, posts, pagination)
+    handleHttpSuccess(res, 'Here are all the post from this user', 200, postsData, pagination)
   } catch (e) {
     handleHttpError(res, 'Error with getting posts by user')
   }
