@@ -227,6 +227,40 @@ const getFollowed = async (req, res) => {
 
 }
 
+const getUsersForChat = async (req, res) => {
+  try {
+    // protect route with session
+    const loggedUserId = req.user.id
+
+    const users = await sequelize.query(`
+      SELECT u.id, u.name, u.surname, u.username, u.email, u.avatar, c.id AS chat_id, c.user1_id, c.user2_id
+      FROM users u
+      JOIN chats c ON u.id=c.user1_id OR u.id=c.user2_id
+      WHERE (c.user1_id=${loggedUserId} OR c.user2_id=${loggedUserId}) AND u.id!=${loggedUserId}
+    `, { type: QueryTypes.SELECT })
+
+    const chatUsers = []
+    for (const user of users) {
+      chatUsers.push({
+        ...user,
+        chat_id: undefined,
+        user1_id: undefined,
+        user2_id: undefined,
+        chat: {
+          id: user.chat_id,
+          user1_id: user.user1_id,
+          user2_id: user.user2_id
+        }
+      })
+    }
+
+    handleHttpSuccess(res, 'Data obtained', 200, chatUsers)
+  } catch (e) {
+    handleHttpError(res, 'Error while getting the user chats', 500)
+    return
+  }
+}
+
 const getUsers = async (req, res) => {
   try {
     const data = await UserModel.findAll({})
@@ -258,4 +292,4 @@ const updateUser = async (req, res) => {
 
 const deleteUser = (req, res) => { }
 
-module.exports = { getUserByUsername, checkUsername, findUsersByUsername, getFollowers, getFollowed, updateUser }
+module.exports = { getUserByUsername, checkUsername, findUsersByUsername, getFollowers, getFollowed, updateUser, getUsersForChat }

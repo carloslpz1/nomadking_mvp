@@ -5,6 +5,9 @@ const FollowModel = require('./follow')
 const LikeModel = require('./like')
 const CommentModel = require('./comment')
 
+const ChatModel = require('./chat')
+const MessageModel = require('./message')
+
 const AddressModel = require('./address')
 const PlaceModel = require('./place')
 const PhoneModel = require('./phone')
@@ -24,6 +27,8 @@ module.exports = {
   FollowModel,
   LikeModel,
   CommentModel,
+  ChatModel,
+  MessageModel,
   AddressModel,
   PlaceModel,
   PhoneModel,

@@ -1,10 +1,11 @@
 const express = require("express")
-const { getUserByUsername, checkUsername, findUsersByUsername, getFollowers, getFollowed, updateUser } = require("../controllers/users.controller")
+const { getUserByUsername, checkUsername, findUsersByUsername, getFollowers, getFollowed, updateUser, getUsersForChat } = require("../controllers/users.controller")
 const { validateUsername, validatorUpdateUser } = require("../validators/users.validator")
 const authMiddleware = require("../middleware/session")
 
 const router = express.Router()
 
+router.get('/chats', authMiddleware, getUsersForChat)
 router.get('/:username', getUserByUsername)
 router.get('/:username/check', validateUsername, checkUsername)
 router.get('/:username/find', authMiddleware, findUsersByUsername)

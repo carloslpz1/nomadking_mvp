@@ -1,5 +1,6 @@
 const { handleHttpError } = require('../utils/handleResponse')
 const { verifyToken } = require('../utils/handleJwt')
+const { UserModel } = require('../models')
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -16,8 +17,20 @@ const authMiddleware = async (req, res, next) => {
       return
     }
 
+    const user = await UserModel.findOne({
+      where: { id: dataToken.id },
+      attributes: { exclude: ['password'] }
+    })
+
+    if (!user) {
+      handleHttpError(res, 'User not found', 404)
+      return
+    }
+
+    req.user = user
     next()
   } catch (e) {
+    console.log(e.message)
     handleHttpError(res, 'Error with the token verification')
   }
 }
