@@ -13,19 +13,22 @@ import PopularPlaces from '../../../components/places/PopularPlaces/PopularPlace
 import useDocumentTitle from '../../../hooks/useDocumentTitle'
 // import useToast from '../../../hooks/useToast'
 import useAuth from '../../../hooks/useAuth'
+import useNavbar from '../../../hooks/useNavbar'
 
 import './Home.css'
 
 const Home = () => {
   // const navigate = useNavigate()
   const setTitle = useDocumentTitle()
+  const { changeSelectedMenuOption } = useNavbar()
   const { user } = useAuth()
 
   // const { addToast } = useToast()
 
   useEffect(() => {
     setTitle('Home')
-  }, [setTitle])
+    changeSelectedMenuOption('home')
+  }, [setTitle, changeSelectedMenuOption])
 
   return (
     <div className="home-container">

@@ -1,0 +1,32 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message.chat-end {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.message.chat-start {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.message .chat-bubble {
+  max-width: 80%;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+}
+
+.message .chat-bubble.chat-bubble-mine {
+  background-color: var(--red-2);
+}
+
+.message span {
+  font-size: 12px;
+  color: var(--fg-color-2);
+}

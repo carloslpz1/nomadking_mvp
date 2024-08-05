@@ -1,30 +1,47 @@
+import { useNavigate } from 'react-router-dom'
+import useNavbar from '../../../hooks/useNavbar'
 import './Navbar.css'
 // Iconos
 import {
   IoHomeOutline,
   IoHomeSharp,
-  IoSettingsOutline,
-  IoSettingsSharp,
   IoChatboxEllipsesOutline,
   IoChatboxEllipsesSharp,
   IoNotificationsOutline,
-  IoNotifications
+  IoNotifications,
+  IoSettingsOutline,
+  IoSettingsSharp,
 } from "react-icons/io5";
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const { selectedMenuOption } = useNavbar()
+
   return (
     <div className="navbar-container">
       <div className="nav-option">
-        <IoHomeSharp className="selected" />
+        {selectedMenuOption === 'home'
+          ? <IoHomeSharp className="selected" />
+          : <IoHomeOutline onClick={() => navigate('/home')} />
+        }
       </div>
       <div className="nav-option">
-        <IoSettingsOutline />
+        {selectedMenuOption === 'messages'
+          ? <IoChatboxEllipsesSharp className="selected" />
+          : <IoChatboxEllipsesOutline onClick={() => navigate('/messages')} />
+        }
       </div>
       <div className="nav-option">
-        <IoChatboxEllipsesOutline />
+        {selectedMenuOption === 'notifications'
+          ? <IoNotifications className="selected" />
+          : <IoNotificationsOutline onClick={() => navigate('/notifications')} />
+        }
       </div>
       <div className="nav-option">
-        <IoNotificationsOutline />
+        {selectedMenuOption === 'settings'
+          ? <IoSettingsSharp className="selected" />
+          : <IoSettingsOutline onClick={() => navigate('/settings')} />
+        }
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import Login from './pages/auth/Login/Login'
 import Signup from './pages/auth/Signup/Signup'
 import Home from './pages/user/Home/Home'
 import Profile from './pages/user/Profile/Profile'
+import Messages from './pages/Messages/Messages'
 import Error404 from './pages/Error404/Error404'
 import ThemeSwitcher from './components/common/ThemeSwitcher/ThemeSwitcher'
 import Loading from './components/common/Loading/Loading'
@@ -48,6 +49,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/messages'
+              element={
+                <ProtectedRoute>
+                  <Messages />
                 </ProtectedRoute>
               }
             />
