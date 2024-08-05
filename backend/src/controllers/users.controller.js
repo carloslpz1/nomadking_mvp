@@ -233,7 +233,8 @@ const getUsersForChat = async (req, res) => {
     const loggedUserId = req.user.id
 
     const users = await sequelize.query(`
-      SELECT u.id, u.name, u.surname, u.username, u.email, u.avatar, c.id AS chat_id, c.user1_id, c.user2_id
+      SELECT u.id, u.name, u.surname, u.username, u.email, 
+      (SELECT s.url FROM storages s WHERE s.id=u.avatar) AS avatar, c.id AS chat_id, c.user1_id, c.user2_id
       FROM users u
       JOIN chats c ON u.id=c.user1_id OR u.id=c.user2_id
       WHERE (c.user1_id=${loggedUserId} OR c.user2_id=${loggedUserId}) AND u.id!=${loggedUserId}
