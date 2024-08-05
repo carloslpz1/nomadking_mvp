@@ -1,12 +1,13 @@
 import useChat from '../../../hooks/useChat';
+import useSocket from '../../../hooks/useSocket';
 import PropTypes from 'prop-types';
 import './ChatUser.css'
 
 const ChatUser = ({ chat }) => {
   const { selectedChat, setSelectedChat } = useChat()
   const isSelected = selectedChat?.id === chat.id
-  // const { onlineUsers } = useSocketContext()
-  // const isOnline = onlineUsers.includes(chat.id.toString())
+  const { onlineUsers } = useSocket()
+  const isOnline = onlineUsers.includes(chat.id.toString())
 
   const cropText = (text, limit = 8) => {
     if (text.length <= limit) return text
@@ -16,7 +17,7 @@ const ChatUser = ({ chat }) => {
 
   return (
     <div className={`chat-user ${isSelected ? 'active' : ''}`} onClick={() => setSelectedChat(chat)}>
-      <div className="avatar">
+      <div className={`avatar ${isOnline ? 'online' : ''}`}>
         <img src={chat.avatar} alt="avatar" />
       </div>
       <p>@{cropText(chat.username)}</p>

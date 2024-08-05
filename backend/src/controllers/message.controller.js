@@ -2,7 +2,7 @@ const { ChatModel, MessageModel } = require('../models')
 const { matchedData } = require('express-validator')
 const { handleHttpSuccess, handleHttpError } = require('../utils/handleResponse')
 const { Op } = require('sequelize')
-const { getReceiverSocketId, io } = require('../socket/socket')
+const { getRecieverSocketId, io } = require('../socket/socket')
 
 const getMessages = async (req, res) => {
   try {
@@ -91,10 +91,10 @@ const sendMessage = async (req, res) => {
     await newMessage.save()
 
     // SOCKET here
-    // const receiverSocketId = getRecieverSocketId(recieverId)
-    // if (receiverSocketId) {
-    //   io.to(receiverSocketId).emit('newMessage', newMessage)
-    // }
+    const receiverSocketId = getRecieverSocketId(recieverId)
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit('newMessage', newMessage)
+    }
 
     handleHttpSuccess(res, 'Message sent', 201, newMessage)
   } catch (e) {

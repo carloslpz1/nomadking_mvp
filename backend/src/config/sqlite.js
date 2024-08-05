@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
     storage: './src/db/database.sqlite',
     pool: { max: 1, idle: Infinity, maxUses: Infinity },
     foreignKeys: true,
-    // logging: console.log,
+    logging: false,
   }
 )
 

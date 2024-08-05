@@ -13,7 +13,7 @@ const Messages = () => {
   const { messages } = useGetMessages(
     getRecieverId(user.id, selectedChat.chat.user1_id, selectedChat.chat.user2_id)
   )
-  // useListenMessages()
+  useListenMessages()
 
   return (
     <div className="messages">

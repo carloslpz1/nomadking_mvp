@@ -23,3 +23,7 @@
   height: 50px;
   border-color: var(--bg-card-hover);
 }
+
+.chat-user .avatar.online {
+  border-color: green;
+}

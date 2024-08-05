@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { SocketContext } from "./contexts"
+import useNavbar from '../hooks/useNavbar'
 import io from 'socket.io-client'
 import PropTypes from 'prop-types'
 import useAuth from "../hooks/useAuth"
@@ -8,9 +9,10 @@ const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
   const { user } = useAuth()
+  const { selectedMenuOption } = useNavbar()
 
   useEffect(() => {
-    if (user) {
+    if (user && selectedMenuOption == 'messages') {
       const socket = io('http://localhost:3000', {
         query: {
           userId: user.id
@@ -30,7 +32,7 @@ const SocketProvider = ({ children }) => {
         setSocket(null)
       }
     }
-  }, [user, socket])
+  }, [user, selectedMenuOption])
 
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>
