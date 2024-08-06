@@ -67,7 +67,17 @@ const getUserByUsername = async (req, res) => {
               WHERE p.user_id=users.id AND p.status='active'
             )`),
             'num_posts'
-          ]
+          ],
+          [
+            sequelize.literal(`(
+              SELECT EXISTS(
+                SELECT 1
+                FROM follows
+                WHERE follower_user_id = ${req.user.id} AND followed_user_id = users.id
+              )  
+            )`),
+            'follow'
+          ],
         ]
       }
     })

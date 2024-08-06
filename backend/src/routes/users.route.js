@@ -6,7 +6,7 @@ const authMiddleware = require("../middleware/session")
 const router = express.Router()
 
 router.get('/chats', authMiddleware, getUsersForChat)
-router.get('/:username', getUserByUsername)
+router.get('/:username', authMiddleware, getUserByUsername)
 router.get('/:username/check', validateUsername, checkUsername)
 router.get('/:username/find', authMiddleware, findUsersByUsername)
 router.get('/:user_id/followers', authMiddleware, getFollowers)
