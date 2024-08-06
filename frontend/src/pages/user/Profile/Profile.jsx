@@ -34,7 +34,12 @@ const Profile = () => {
     setLoadingUser(true)
     if (userId) {
       try {
-        const response = await fetch(`${apiUrl}/users/${userId.toLowerCase()}`)
+        const response = await fetch(`${apiUrl}/users/${userId.toLowerCase()}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        })
 
         const responseData = await response.json()
 
@@ -52,7 +57,7 @@ const Profile = () => {
       setUserProfile(user)
       setLoadingUser(false)
     }
-  }, [apiUrl, myProfile, navigate, userId, user])
+  }, [user, userId])
 
   useEffect(() => {
     getUser()
@@ -70,7 +75,7 @@ const Profile = () => {
         <FollowersCard />
       </section>
       <section className="post-side">
-        <ProfileCard userData={myProfile ? user : userProfile} profile />
+        <ProfileCard userData={myProfile ? user : userProfile} profile otherProfile={!myProfile} />
         {myProfile
           ? <div className="create-post">
             <CreatePostCard userData={user} />

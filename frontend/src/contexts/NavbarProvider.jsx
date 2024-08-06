@@ -15,7 +15,7 @@ const NavbarProvider = ({ children }) => {
     } else if (option === 'settings') {
       setSelectedMenuOption('settings')
     } else {
-      setSelectedMenuOption('menu')
+      setSelectedMenuOption('')
     }
   }
 

@@ -5,11 +5,16 @@ import Avatar from "boring-avatars";
 import { names } from '../../../data/boringAvatars'
 import cover from '../../../assets/images/cover.jpg'
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import useChat from '../../../hooks/useChat'
+import { Link, useNavigate } from 'react-router-dom'
+import useAuth from '../../../hooks/useAuth';
 // import profile from '../../../assets/images/profileImg.jpg'
 
-const ProfileCard = ({ userData, profile }) => {
+const ProfileCard = ({ userData, profile, otherProfile }) => {
+  const navigate = useNavigate()
   const [boringAvatarId, setBoringAvatarId] = useState(null)
+  const { user } = useAuth()
+  const { setSelectedChat } = useChat()
 
   useEffect(() => {
     let avatarId = localStorage.getItem('avatar')
@@ -80,6 +85,22 @@ const ProfileCard = ({ userData, profile }) => {
           ? <button><Link to={`/profile/${userData.username}`}>See profile</Link></button>
           : <></>
         }
+
+        {otherProfile
+          ? (
+            <div className="other-user-actions">
+              <button className="btn-inverse" onClick={() => {
+                setSelectedChat({ ...userData, chat: { user1_id: user.id, user2_id: userData.id } })
+                navigate('/messages')
+              }}>Message</button>
+              {userData.follow
+                ? <button>Unfollow</button>
+                : <button>Follow</button>
+              }
+            </div>
+          )
+          : <></>
+        }
       </div>
     </div>
   )
@@ -99,9 +120,11 @@ ProfileCard.propTypes = {
     banner: PropTypes.string,
     followers: PropTypes.number,
     following: PropTypes.number,
-    num_posts: PropTypes.number
+    num_posts: PropTypes.number,
+    follow: PropTypes.number
   }),
-  profile: PropTypes.bool
+  profile: PropTypes.bool,
+  otherProfile: PropTypes.bool
 };
 
 export default ProfileCard

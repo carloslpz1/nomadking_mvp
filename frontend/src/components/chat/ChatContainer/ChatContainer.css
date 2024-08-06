@@ -21,6 +21,7 @@
 .chats-container .chats-users {
   position: relative;
   display: flex;
+  gap: 4px;
   align-items: center;
   width: 100%;
   height: 70px;

@@ -123,3 +123,9 @@
 .profile-card button a:hover {
   color: var(--fg-btn-1-hover);
 }
+
+/*  */
+.other-user-actions {
+  display: flex;
+  gap: 8px;
+}
