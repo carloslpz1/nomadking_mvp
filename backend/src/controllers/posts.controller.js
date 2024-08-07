@@ -35,6 +35,41 @@ const getAllPosts = async (req, res) => {
   }
 }
 
+const getPostById = async (req, res) => {
+  try {
+    const postId = req.params.post_id
+    const user = req.user
+
+    const post = await sequelize.query(`
+      SELECT p.id, p.content, p.user_id, p.createdAt,
+      (SELECT s.url FROM storages s WHERE s.id=p.media_id) AS media,
+      (SELECT COUNT(*) FROM likes l WHERE l.post_id=p.id) AS "likes",
+      EXISTS (SELECT 1 FROM likes l WHERE l.post_id=p.id AND l.user_id=${user.id}) AS liked,
+      (SELECT COUNT(*) FROM comments c WHERE c.post_id=p.id) AS "comments"
+      FROM posts p
+      WHERE p.id=${postId} AND p.status="active"
+    `, { type: QueryTypes.SELECT })
+
+    if (post.length === 0) {
+      handleHttpError(res, 'No post found', 404)
+      return
+    }
+
+    let postData = post[0]
+    const postUser = await sequelize.query(`
+      SELECT u.id, u.name, u.surname, u.username, s.url AS avatar
+      FROM users u, storages s
+      WHERE u.id=${postData.user_id} AND u.avatar=s.id
+    `, { type: QueryTypes.SELECT })
+    postData = { ...postData, user_id: undefined, user: postUser[0] }
+
+    handleHttpSuccess(res, 'Here are all the post from this user', 200, postData)
+  } catch (e) {
+    console.log(e.message)
+    handleHttpError(res, 'Error while trying to get a post', 500)
+  }
+}
+
 const getPostsByUser = async (req, res) => {
   try {
     const page = req.query.page && Number(req.query.page) ? Number(req.query.page) : 1
@@ -201,4 +236,4 @@ const deletePost = async (req, res) => {
   }
 }
 
-module.exports = { getAllPosts, getPostsByUser, getPostByFollow, createPost, updatePost, deletePost }
+module.exports = { getAllPosts, getPostById, getPostsByUser, getPostByFollow, createPost, updatePost, deletePost }
