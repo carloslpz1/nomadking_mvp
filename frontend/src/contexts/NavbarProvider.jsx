@@ -3,7 +3,7 @@ import { NavbarContext } from "./contexts"
 import PropTypes from 'prop-types'
 
 const NavbarProvider = ({ children }) => {
-  const [selectedMenuOption, setSelectedMenuOption] = useState('home')
+  const [selectedMenuOption, setSelectedMenuOption] = useState('')
 
   const changeSelectedMenuOption = (option) => {
     if (option === 'home') {

@@ -6,6 +6,7 @@
   padding: 12px;
   border-radius: 16px;
   background-color: var(--bg-card-color);
+  z-index: 10;
 }
 
 .post > img {
@@ -63,6 +64,7 @@
 
 .post .post-react .post-menu {
   position: relative;
+  z-index: 1;
 }
 
 .post .post-react .post-menu .options {
@@ -149,7 +151,7 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(4px);
-  z-index: 2;
+  z-index: 10;
 }
 
 .full-image-container.show {

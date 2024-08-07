@@ -27,7 +27,7 @@ const PostsLayout = ({ userId, myPost }) => {
       let response
       if (myPost) {
         console.log(`Pidiendo la data de ${userId}`)
-        response = await fetch(`${apiUrl}/posts/${userId ? userId : user.id}${page ? `?page=${page}` : ''}`, {
+        response = await fetch(`${apiUrl}/posts/${userId ? userId : user.id}/user${page ? `?page=${page}` : ''}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${user.token}`

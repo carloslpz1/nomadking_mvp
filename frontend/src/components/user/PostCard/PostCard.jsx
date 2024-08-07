@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../common/ConfirmationModal/ConfirmationModal';
 import OutsideClickHandler from '../../handlers/OutsideClickHandler';
 import useAuth from '../../../hooks/useAuth';
 import useToast from '../../../hooks/useToast';
 import PropTypes from 'prop-types';
+import timeAgo from '../../../utils/timeAgo';
 import './PostCard.css'
 
 // Icons
@@ -19,6 +20,7 @@ import {
 } from "react-icons/io5";
 
 const PostCard = ({ data, handleDelete }) => {
+  const navigate = useNavigate()
   const [postData, setPostData] = useState(data)
   const [showMedia, setShowMedia] = useState(false)
   const [postMenuOpen, setPostMenuOpen] = useState(false)
@@ -26,51 +28,6 @@ const PostCard = ({ data, handleDelete }) => {
   const { addToast } = useToast()
   const { user } = useAuth()
   const apiUrl = import.meta.env.VITE_API_URL
-  const comment = false
-  const timeAgo = (date) => {
-    const now = new Date()
-    const secondsPast = (now.getTime() - date.getTime()) / 1000
-
-    if (secondsPast < 60) {
-      return `${Math.round(secondsPast)} seconds ago`
-    }
-    if (secondsPast < 3600) {
-      return `${Math.round(secondsPast / 60)} minutes ago`;
-    }
-    if (secondsPast < 86400) {
-      return `${Math.round(secondsPast / 3600)} hours ago`;
-    }
-    if (secondsPast < 2592000) {
-      return `${Math.round(secondsPast / 86400)} days ago`;
-    }
-    if (secondsPast < 31536000) {
-      return `${Math.round(secondsPast / 2592000)} months ago`;
-    }
-    return `${Math.round(secondsPast / 31536000)} years ago`;
-  }
-
-  // const handleDelete = async () => {
-  //   console.log(user)
-  //   try {
-  //     const response = await fetch(`${apiUrl}/posts/${data.id}`, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${user.token}`,
-  //       }
-  //     })
-
-  //     const responseData = await response.json()
-  //     console.log(responseData)
-
-  //     if (responseData.status == 'success') {
-  //       addToast('Post deleted', 5000)
-  //     }
-  //   } catch (e) {
-  //     console.error(e)
-  //   }
-
-  // }
 
   const handleLike = async () => {
     try {
@@ -100,6 +57,7 @@ const PostCard = ({ data, handleDelete }) => {
   }
 
   const confirmAction = () => {
+    console.log('Confirm')
     handleDelete(postData.id)
     setShowModal(false)
   }
@@ -134,7 +92,7 @@ const PostCard = ({ data, handleDelete }) => {
           {postData.liked ? <IoHeart className="liked" /> : <IoHeartOutline />}
           <span>{postData.likes}</span>
         </div>
-        <div className="action">
+        <div className="action" onClick={() => navigate(`/post/${postData.id}`)}>
           <IoChatbubbleOutline />
           <span>{postData.comments}</span>
         </div>
@@ -159,28 +117,6 @@ const PostCard = ({ data, handleDelete }) => {
           </OutsideClickHandler>
         </div>
       </div>
-
-      {comment
-        ? <>
-          <div className="hl"></div>
-
-          <div className="comment">
-            <div className="detail">
-              <div className="avatar">
-                <img src={postData.user.avatar} alt="avatar" />
-              </div>
-              <div className="user-info">
-                <span><b>{postData.user.name} {postData.user.surname}</b></span>
-                <span>@{postData.user.username}</span>
-              </div>
-              <span className="date">{timeAgo(new Date(postData.createdAt))}</span>
-            </div>
-
-            <span className="content">{postData.content}</span>
-          </div>
-        </>
-        : <></>
-      }
 
       <div className={`full-image-container ${showMedia && 'show'}`}>
         <IoClose onClick={() => setShowMedia(false)} />
