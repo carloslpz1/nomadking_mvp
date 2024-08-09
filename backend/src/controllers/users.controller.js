@@ -3,8 +3,10 @@ const { sequelize } = require("../config/database")
 const { UserModel, PostModel, StorageModel, FollowModel } = require('../models')
 const { matchedData } = require('express-validator')
 const { handleHttpSuccess, handleHttpError } = require('../utils/handleResponse')
-const { verifyToken } = require('../utils/handleJwt')
+const { verifyToken, tokenSign } = require('../utils/handleJwt')
 const { QueryTypes } = require("sequelize")
+const { encrypt, compare } = require('../utils/handlePassword')
+const Role = require('../models/role')
 
 const Op = Sequelize.Op
 
@@ -284,17 +286,102 @@ const getUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    // TODO: update this method for better control of the data
-    req = matchedData(req)
-    const { id, ...body } = req
+    let body = req.body
+    const user = req.user
 
-    const data = await UserModel.update(body, {
-      where: {
-        id: id
-      }
+
+    const checkUser = await UserModel.findOne({
+      where: { id: user.id },
+      attributes: {
+        include: [
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.avatar  
+            )`),
+            'avatar'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT s.url
+              FROM storages AS s
+              WHERE s.id = users.banner  
+            )`),
+            'banner'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows AS follows
+              WHERE follows.followed_user_id = users.id
+            )`),
+            'followers'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows AS follows
+              WHERE follows.follower_user_id = users.id
+            )`),
+            'following'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM posts AS p
+              WHERE p.user_id=users.id AND p.status='active'
+            )`),
+            'num_posts'
+          ]
+        ]
+      },
+      include: [
+        {
+          model: Role,
+          as: 'role',
+          attributes: ['name']
+        }
+      ]
     })
 
-    handleHttpSuccess(res, 'User data updated', 201, data)
+    const hashPassword = checkUser.password
+    const check = await compare(body.check_password, hashPassword)
+
+    if (check) {
+      if (body.email !== checkUser.email) {
+        const checkEmail = await UserModel.findOne({
+          where: { email: body.email }
+        })
+        if (checkEmail) {
+          handleHttpError(res, 'Email already exists', 403)
+          return
+        }
+      }
+
+      body.check_password = null
+      if (body.password) {
+        const passwordHash = await encrypt(body.password)
+        body = { ...body, password: passwordHash }
+      }
+
+      Object.keys(body).forEach((key) => {
+        if (body[key] === null) {
+          delete body[key]
+        }
+      })
+
+      checkUser.set(body)
+      await checkUser.save()
+
+      checkUser.set('password', undefined, { strict: false })
+      const token = await tokenSign(user)
+
+      handleHttpSuccess(res, 'User data updated', 200, checkUser, undefined, token)
+    } else {
+      handleHttpError(res, 'It was no possible to update your data')
+    }
+
   } catch (e) {
     console.log(e)
     handleHttpError(res, 'Error trying to update the user')

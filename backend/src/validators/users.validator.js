@@ -11,7 +11,7 @@ const validateUsername = (req, res, next) => {
   }
 
   if (username.length < 3) {
-    handleHttpError(res, 'username is too short', 400, { username: 'Username is too short' })
+    handleHttpError(res, 'Username is too short', 400, { username: 'Username is too short' })
     return
   }
 
@@ -25,10 +25,6 @@ const validateUsername = (req, res, next) => {
 }
 
 const validatorUpdateUser = [
-  check("id")
-    .exists()
-    .notEmpty()
-    .isNumeric(),
   check("name")
     .exists()
     .notEmpty()
@@ -45,20 +41,6 @@ const validatorUpdateUser = [
     .exists()
     .notEmpty()
     .isEmail(),
-  check("avatar")
-    .exists()
-    .notEmpty()
-    .isNumeric(),
-  check("banner")
-    .exists()
-    .notEmpty()
-    .isNumeric(),
-  check("birthdate")
-    .exists()
-    .notEmpty(),
-  check("account_type")
-    .exists()
-    .notEmpty(),
   (req, res, next) => validateResults(req, res, next)
 ]
 
