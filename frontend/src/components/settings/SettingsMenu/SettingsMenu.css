@@ -1,0 +1,21 @@
+.settings-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-menu .option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.settings-menu .option.selected {
+  background-color: var(--bg-card-color);
+}
+
+.settings-menu .option:hover {
+  background-color: var(--bg-card-color);
+}

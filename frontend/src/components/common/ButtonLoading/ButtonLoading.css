@@ -10,6 +10,7 @@
   background-color: var(--red-1);
 }
 
-.btn-loading .loader {
+.btn-loading .loader-container {
   width: 25px;
+  height: 25px;
 }

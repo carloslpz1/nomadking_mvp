@@ -1,0 +1,41 @@
+.settings-container {
+  position: relative;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 3fr 1fr;
+  grid-auto-rows: minmax(100px, auto);
+  gap: 0.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.settings-container .settings {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  /* gap: 8px; */
+  height: 100dvh;
+  /* background-color: yellow; */
+}
+
+.settings-container .settings .settings-header {
+  display: flex;
+  align-items: center;
+  /* height: 56px; */
+  padding: 12px 12px;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+}
+
+.settings-container .sidebar {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  /* background-color: purple; */
+}

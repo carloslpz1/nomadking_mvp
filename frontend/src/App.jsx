@@ -8,6 +8,7 @@ import Home from './pages/user/Home/Home'
 import Profile from './pages/user/Profile/Profile'
 import PostPage from './pages/post/PostPage/PostPage'
 import Messages from './pages/Messages/Messages'
+import Settings from './pages/user/Settings/Settings'
 import Error404 from './pages/Error404/Error404'
 import ThemeSwitcher from './components/common/ThemeSwitcher/ThemeSwitcher'
 import Loading from './components/common/Loading/Loading'
@@ -66,6 +67,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Messages />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/settings'
+              element={
+                <ProtectedRoute>
+                  <Settings />
                 </ProtectedRoute>
               }
             />

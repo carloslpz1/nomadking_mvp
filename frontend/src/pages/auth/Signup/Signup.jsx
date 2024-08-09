@@ -80,20 +80,24 @@ const Signup = () => {
   }
 
   const checkUsername = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/users/${username}/check`, {
-        method: 'GET'
-      })
+    if (username.length > 0) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/users/${username}/check`, {
+          method: 'GET'
+        })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        setErrors({ ...errors, username: errorData.error.message })
-        throw new Error(errorData.error.message)
+        if (!response.ok) {
+          const errorData = await response.json()
+          setErrors({ ...errors, username: errorData.error.message })
+          throw new Error(errorData.error.message)
+        }
+
+        setErrors({ ...errors, username: undefined })
+      } catch (e) {
+        console.error(e)
       }
-
+    } else {
       setErrors({ ...errors, username: undefined })
-    } catch (e) {
-      console.error(e)
     }
   }
 

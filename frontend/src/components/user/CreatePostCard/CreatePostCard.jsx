@@ -48,7 +48,7 @@ const CreatePostCard = ({ userData }) => {
           const mediaData = await mediaResponse.json()
 
           if (mediaData.status == 'error') {
-            addToast(mediaData.message, 5000, 'error')
+            addToast(mediaData.error.message, 5000, 'error')
           }
 
           if (mediaData.status == 'success') {
@@ -104,7 +104,9 @@ const CreatePostCard = ({ userData }) => {
 
   return (
     <div className="create-post-card">
-      <img src={userData.avatar} alt="Profile photo" />
+      <div className="avatar">
+        <img src={userData.avatar} alt="Profile photo" />
+      </div>
 
       <form className="post-input" onSubmit={handleSubmit}>
         <input
