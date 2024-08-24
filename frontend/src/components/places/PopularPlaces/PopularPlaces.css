@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.popular-places .title a {
+  color: var(--fg-color-1);
+}
+
 .popular-places .title:hover {
   background-color: var(--bg-card-hover);
 }

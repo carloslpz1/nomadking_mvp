@@ -14,6 +14,8 @@ import ThemeSwitcher from './components/common/ThemeSwitcher/ThemeSwitcher'
 import Loading from './components/common/Loading/Loading'
 import useAuth from './hooks/useAuth'
 import './App.css'
+import Places from './pages/place/Places/Places'
+import Place from './pages/place/Place/Place'
 
 
 function App() {
@@ -75,6 +77,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Settings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/places'
+              element={
+                <ProtectedRoute>
+                  <Places />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/place/:placeId'
+              element={
+                <ProtectedRoute>
+                  <Place />
                 </ProtectedRoute>
               }
             />

@@ -75,7 +75,7 @@ const Profile = () => {
         <FollowersCard />
       </section>
       <section className="post-side">
-        <ProfileCard userData={myProfile ? user : userProfile} profile otherProfile={!myProfile} />
+        <ProfileCard userData={myProfile ? user : userProfile} setUserData={myProfile ? () => { } : setUserProfile} profile otherProfile={!myProfile} />
         {myProfile
           ? <div className="create-post">
             <CreatePostCard userData={user} />

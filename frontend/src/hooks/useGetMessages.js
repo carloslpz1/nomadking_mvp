@@ -23,7 +23,7 @@ const useGetMessages = (receiver_id) => {
         const data = await res.json()
 
         if (data.status == 'error') {
-          throw new Error(data.message)
+          throw new Error(data.error.message)
         }
 
         setMessages(data.data.items)

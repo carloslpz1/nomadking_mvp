@@ -73,6 +73,7 @@
 .search-result .user-card .user-avatar {
   width: 42px;
   height: 42px;
+  border-color: var(--bg-card-hover);
 }
 
 .search-result .user-card .user-avatar img {

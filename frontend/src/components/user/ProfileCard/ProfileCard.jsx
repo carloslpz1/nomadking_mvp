@@ -8,13 +8,18 @@ import { useEffect, useState } from 'react';
 import useChat from '../../../hooks/useChat'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth';
+import useToast from '../../../hooks/useToast';
+import { usePostFollow, useDeleteFollow } from '../../../hooks/useFollow';
 // import profile from '../../../assets/images/profileImg.jpg'
 
-const ProfileCard = ({ userData, profile, otherProfile }) => {
+const ProfileCard = ({ userData, setUserData, profile, otherProfile }) => {
   const navigate = useNavigate()
   const [boringAvatarId, setBoringAvatarId] = useState(null)
   const { user } = useAuth()
+  const { addToast } = useToast()
   const { setSelectedChat } = useChat()
+  const { postData } = usePostFollow()
+  const { deleteData } = useDeleteFollow()
 
   useEffect(() => {
     let avatarId = localStorage.getItem('avatar')
@@ -26,6 +31,30 @@ const ProfileCard = ({ userData, profile, otherProfile }) => {
 
     setBoringAvatarId(avatarId)
   }, [])
+
+  const handleFollow = async () => {
+    const res = await postData({
+      follower_user_id: user.id,
+      followed_user_id: userData.id
+    })
+
+    if (res) {
+      setUserData({ ...userData, follow: 1 })
+      addToast(`Now you're following ${userData.username}`, 5000, 'success')
+    }
+  }
+
+  const handleUnfollow = async () => {
+    const res = await deleteData({
+      follower_user_id: user.id,
+      followed_user_id: userData.id
+    })
+
+    if (res) {
+      setUserData({ ...userData, follow: 0 })
+      addToast(`You just unfollow ${userData.username}`, 5000, 'success')
+    }
+  }
 
   return (
     <div className="profile-card">
@@ -94,8 +123,8 @@ const ProfileCard = ({ userData, profile, otherProfile }) => {
                 navigate('/messages')
               }}>Message</button>
               {userData.follow
-                ? <button>Unfollow</button>
-                : <button>Follow</button>
+                ? <button onClick={handleUnfollow}>Unfollow</button>
+                : <button onClick={handleFollow}>Follow</button>
               }
             </div>
           )
@@ -123,6 +152,7 @@ ProfileCard.propTypes = {
     num_posts: PropTypes.number,
     follow: PropTypes.number
   }),
+  setUserData: PropTypes.func,
   profile: PropTypes.bool,
   otherProfile: PropTypes.bool
 };

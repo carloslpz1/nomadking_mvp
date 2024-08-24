@@ -73,7 +73,7 @@ const SearchBar = () => {
           <div className="search-result">
             {results.map((result) => (
               <Link key={result.id} className="user-card" to={`/profile/${result.username}`}>
-                <div className="user-avatar">
+                <div className="avatar user-avatar">
                   <img src={result.avatar} alt="Avatar" />
                 </div>
                 <div className="user-data">

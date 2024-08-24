@@ -223,7 +223,7 @@ const Signup = () => {
             {
               isLoading
                 ? <ButtonLoading />
-                : <button type="submit" className="btn">Log In</button>
+                : <button type="submit" className="btn">Sign In</button>
             }
           </form>
         </div>

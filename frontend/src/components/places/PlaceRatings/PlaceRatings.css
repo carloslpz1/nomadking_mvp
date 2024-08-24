@@ -1,0 +1,83 @@
+.ratings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ratings-container .rating {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+}
+
+.ratings-container .rating .user-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--fg-color-1);
+}
+
+.ratings-container .rating .user-container .avatar {
+  width: 38px;
+  height: 38px;
+  border-color: var(--bg-card-hover);
+}
+
+.ratings-container .rating .user-container .user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.ratings-container .rating .user-container .user-info .name {
+  font-weight: 500;
+}
+
+/* STARS */
+.rating .place-rating .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.rating .place-rating .stars .star-holder {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.rating .place-rating .stars .star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  transition: all 1s ease 0s;
+  clip-path: polygon(50% 0%, 66% 32%, 100% 38%, 78% 64%, 83% 100%, 50% 83%, 17% 100%, 22% 64%, 0 38%, 34% 32%);
+}
+
+.rating .place-rating .stars .starb {
+  /* content: ""; */
+  width: 100%;
+  height: 100%;
+  background-color: #ffb565;
+  z-index: -1;
+  display: block;
+  clip-path: polygon(50% 0%, 66% 32%, 100% 38%, 78% 64%, 83% 100%, 50% 83%, 17% 100%, 22% 64%, 0 38%, 34% 32%);
+	background: linear-gradient(90deg, #ffb565, #f9f871 30% 50%, var(--bg-card-hover) 50%, 70%, var(--bg-card-hover) 100%);
+	background-size: 200% 100%;
+	background-position: 80% 0;
+}
+
+.rating .place-rating .stars .score {
+  margin-left: 8px;
+  color: var(--fg-color-1);
+}
+
+.rating .place-rating .ratings {
+  color: var(--blue-2);
+}

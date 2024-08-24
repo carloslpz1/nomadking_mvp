@@ -1,0 +1,24 @@
+.places-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.places-container .title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  letter-spacing: 1.1px;
+}
+
+.places-container .title svg {
+  font-size: 28px;
+}
+
+.places-container .places {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  padding: 4px 8px;
+}

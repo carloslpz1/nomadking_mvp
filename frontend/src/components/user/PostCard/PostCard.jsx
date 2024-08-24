@@ -100,7 +100,7 @@ const PostCard = ({ data, handleDelete }) => {
           <IoPaperPlaneOutline />
         </div>
         <div className="action post-menu">
-          <OutsideClickHandler onOutsideClick={() => setPostMenuOpen(false)}>
+          <OutsideClickHandler onOutsideClick={() => setPostMenuOpen(true)}>
             <IoEllipsisHorizontalOutline onClick={() => setPostMenuOpen((prev) => !prev)} />
             <div className="options" style={postMenuOpen ? { display: 'flex' } : { display: 'none' }}>
               {user.id == postData.user.id

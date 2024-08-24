@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import useToast from '../../../hooks/useToast';
+import { usePostFollow } from '../../../hooks/useFollow';
 import PropTypes from 'prop-types';
 import { IoCheckmark } from "react-icons/io5";
 import './UserCard.css'
@@ -10,31 +11,17 @@ const UserCard = ({ data }) => {
   const [isFollowed, setIsfollowed] = useState(false)
   const { user } = useAuth()
   const { addToast } = useToast()
-  const apiUrl = import.meta.env.VITE_API_URL
+  const { postData } = usePostFollow()
 
   const handleFollow = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/follows`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`
-        },
-        body: JSON.stringify({
-          follower_user_id: user.id,
-          followed_user_id: data.id
-        })
-      })
+    const res = await postData({
+      follower_user_id: user.id,
+      followed_user_id: data.id
+    })
 
-      const responseData = await response.json()
-      console.log(responseData)
-
-      if (responseData.status == 'success') {
-        setIsfollowed(true)
-        addToast(`Now you're following ${data.username}`, 5000, 'success')
-      }
-    } catch (e) {
-      console.error(e)
+    if (res) {
+      setIsfollowed(true)
+      addToast(`Now you're following ${data.username}`, 5000, 'success')
     }
   }
 

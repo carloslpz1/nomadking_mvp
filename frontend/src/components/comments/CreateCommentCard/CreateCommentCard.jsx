@@ -46,7 +46,9 @@ const CreateCommentCard = ({ postId }) => {
 
   return (
     <div className="create-comment-container">
-      <img src={user.avatar} alt="Profile photo" />
+      <div className="avatar">
+        <img src={user.avatar} alt="Profile photo" />
+      </div>
 
       <form className="comment-input" onSubmit={handleSubmit}>
         <input
