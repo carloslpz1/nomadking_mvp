@@ -1,0 +1,12 @@
+.create-rating {
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  /* height: 100px; */
+  /* background-color: yellowgreen; */
+  z-index: 2;
+}

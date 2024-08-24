@@ -1,0 +1,34 @@
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.comments-container .loader-container {
+  width: 50px;
+}
+
+.comments-container .comment-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+}
+
+.comment-card .detail .user-info {
+  font-size: 14px;
+}
+
+.comment-card .detail .date {
+  font-size: 14px;
+}
+
+.comment-card .content {
+  padding-left: 50px;
+}

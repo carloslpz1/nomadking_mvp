@@ -1,0 +1,31 @@
+.input-chat-container {
+  width: 100%;
+}
+
+.input-chat-container .input-chat-content {
+  position: relative;
+  width: 100%;
+}
+
+.input-chat-container .input-chat-content input {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  font-size: 14px;
+  letter-spacing: 1.1px;
+}
+
+.input-chat-container .input-chat-content button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 16px;
+}

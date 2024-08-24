@@ -1,0 +1,90 @@
+.create-rating {
+  padding: 4px;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+}
+
+.create-rating .user-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--fg-color-1);
+  font-size: 14px;
+}
+
+.create-rating .user-container .avatar {
+  width: 36px;
+  height: 36px;
+  border-color: var(--bg-card-hover);
+}
+
+.create-rating .user-container .user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-rating .user-container .user-info .name {
+  font-weight: 500;
+}
+
+/* STARS */
+.create-rating .rating .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.create-rating .rating .stars .star-holder {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.create-rating .rating .stars .star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  transition: all 1s ease 0s;
+  clip-path: polygon(50% 0%, 66% 32%, 100% 38%, 78% 64%, 83% 100%, 50% 83%, 17% 100%, 22% 64%, 0 38%, 34% 32%);
+  cursor: pointer;
+}
+
+.create-rating .rating .stars .starb {
+  /* content: ""; */
+  width: 100%;
+  height: 100%;
+  background-color: #ffb565;
+  z-index: -1;
+  display: block;
+  clip-path: polygon(50% 0%, 66% 32%, 100% 38%, 78% 64%, 83% 100%, 50% 83%, 17% 100%, 22% 64%, 0 38%, 34% 32%);
+	background: linear-gradient(90deg, #ffb565, #f9f871 30% 50%, var(--bg-card-hover) 50%, 70%, var(--bg-card-hover) 100%);
+	background-size: 200% 100%;
+	background-position: 80% 0;
+}
+
+.create-rating .rating .stars .score {
+  margin-left: 8px;
+  color: var(--fg-color-1);
+}
+
+.create-rating .rating .ratings {
+  color: var(--blue-2);
+}
+
+/* FORM */
+.create-rating form {
+  display: flex;
+}
+
+.create-rating form input {
+  width: 100%;
+  /* height: 40px; */
+  padding: 12px 8px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: var(--bg-color);
+  font-size: 14px;
+}

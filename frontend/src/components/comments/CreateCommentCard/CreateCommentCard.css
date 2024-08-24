@@ -1,0 +1,49 @@
+.create-comment-container {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--bg-card-color);
+}
+
+.create-comment-container .avatar {
+  border-color: var(--bg-card-hover);
+}
+
+.create-comment-container > img {
+  width: 3rem;
+  height: 3rem;
+  border: 50%;
+}
+
+.create-comment-container .comment-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 90%;
+}
+
+.create-comment-container .comment-input input {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--bg-color);
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--fg-color-1);
+}
+
+.create-comment-container .comment-options {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.create-comment-container .comment-options .loader-container {
+  width: 24px;
+}
+
+.ps-button {
+  padding: 5px 20px;
+  font-size: 12px;
+}

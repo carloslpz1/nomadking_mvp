@@ -1,0 +1,16 @@
+.btn-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 46px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: var(--red-1);
+}
+
+.btn-loading .loader-container {
+  width: 25px;
+  height: 25px;
+}

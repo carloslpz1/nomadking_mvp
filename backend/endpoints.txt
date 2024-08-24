@@ -1,0 +1,14 @@
+- obtener usuario    | get    /:id
+- obtener seguidos   | get    /:id/following
+- obtener seguidores | get    /:id/followers
+- actualizar usuario | put    /:id
+- seguir usuario     | put    /:id/follow
+- dejar usuario      | put    /:id/unfollow
+- borrar usuario     | delete /:id
+
+- obtener post      | get    /:id
+- obtener posts     | get    /:username
+- crear post        | post   /
+- actualizar post   | put    /:id
+- like post ?       | put    /:id/like
+- delete post       | delete /:id

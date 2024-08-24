@@ -1,0 +1,174 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 16px;
+  background-color: var(--bg-card-color);
+  z-index: 10;
+}
+
+.post > img {
+  width: 100%;
+  max-height: 20rem;
+  border-radius: 8px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.detail {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.detail .avatar {
+  width: 42px;
+  height: 42px;
+  border-color: var(--bg-card-hover);
+}
+
+.detail .user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail .user-info a {
+  color: var(--fg-color-1);
+}
+
+.detail .date {
+  align-self: flex-start;
+  margin-left: auto;
+}
+
+/* .post .content {
+  margin-left: 50px;
+} */
+
+.post .post-react {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.post .post-react .action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.post .post-react .post-menu {
+  position: relative;
+  z-index: 1;
+}
+
+.post .post-react .post-menu .options {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--bg-card-color);
+  -webkit-box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+
+.dark .post .post-react .post-menu .options {
+  background-color: var(--bg-card-color);
+  -webkit-box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);
+  -moz-box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);
+  box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);
+}
+
+.post .post-react .post-menu .options .option {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.post .post-react .post-menu .options .option:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.post .post-react svg {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.post .post-react .liked {
+  color: var(--red-1);
+}
+
+.post .hl {
+  border-top: 1px solid var(--bg-card-hover);
+}
+
+.post .comment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.post .comment .avatar {
+  width: 32px;
+  height: 32px;
+}
+
+.post .comment .user-info {
+  font-size: 14px;
+}
+
+.post .comment .date {
+  font-size: 14px;
+}
+
+.post .comment .content {
+  font-size: 14px;
+}
+
+/* Ver la imagen en full tamano al darle click */
+.full-image-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.full-image-container.show {
+  display: flex;
+}
+
+.full-image-container svg {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.full-image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

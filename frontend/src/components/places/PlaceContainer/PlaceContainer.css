@@ -1,0 +1,112 @@
+.place-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background-color: var(--bg-card-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.place-container .image-container {
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.place-container .image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-container .map-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.place-container .panel-switch {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.place-container .panel-switch button {
+  width: 100%;
+  background-color: transparent;
+  border-radius: 4px;
+  color: var(--fg-color-1);
+}
+
+.place-container .panel-switch button:hover {
+  border-color: var(--bg-card-hover);
+}
+
+.place-container .panel-switch button.active {
+  background-color: var(--bg-card-hover);
+}
+
+.place-container .place-rating .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.place-container .place-rating .stars .star-holder {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.place-container .place-rating .stars .star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  transition: all 1s ease 0s;
+  clip-path: polygon(50% 0%, 66% 32%, 100% 38%, 78% 64%, 83% 100%, 50% 83%, 17% 100%, 22% 64%, 0 38%, 34% 32%);
+}
+
+.place-container .place-rating .stars .starb {
+  /* content: ""; */
+  width: 100%;
+  height: 100%;
+  background-color: #ffb565;
+  z-index: -1;
+  display: block;
+  clip-path: polygon(50% 0%, 66% 32%, 100% 38%, 78% 64%, 83% 100%, 50% 83%, 17% 100%, 22% 64%, 0 38%, 34% 32%);
+	background: linear-gradient(90deg, #ffb565, #f9f871 30% 50%, var(--bg-card-hover) 50%, 70%, var(--bg-card-hover) 100%);
+	background-size: 200% 100%;
+	background-position: 80% 0;
+}
+
+.place-container .place-rating .stars .score {
+  margin-left: 8px;
+  color: var(--fg-color-1);
+}
+
+.place-container .place-rating .ratings {
+  color: var(--blue-2);
+}
+
+.dark .place-container .place-rating .ratings {
+  color: var(--blue-3)
+}
+
+.place-container .place-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.place-container .place-info .info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* border: 1px solid orangered; */
+}
