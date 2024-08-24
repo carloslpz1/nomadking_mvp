@@ -26,6 +26,9 @@ const Place = sequelize.define(
     internet_qua: {
       type: DataTypes.ENUM(['excellent', 'good', 'regular', 'poor', 'bad'])
     },
+    photo: {
+      type: DataTypes.INTEGER,
+    },
     address_id: {
       type: DataTypes.INTEGER,
       references: {
