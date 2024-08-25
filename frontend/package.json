@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.7.2",
+    "backend": "file:../backend",
     "boring-avatars": "^1.10.2",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
