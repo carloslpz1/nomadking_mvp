@@ -13,7 +13,7 @@ const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user && selectedMenuOption == 'messages') {
-      const socket = io('http://localhost:3000', {
+      const socket = io('https://nomadking.onrender.com', {
         query: {
           userId: user.id
         }
