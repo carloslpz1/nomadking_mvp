@@ -2,6 +2,19 @@
 
 A networking platform tailored for digital nomads—enabling professionals working remotely to connect, share resources, post events, and collaborate globally.
 
+## Demo
+
+if you want you can go to [this site](https://nomadking.onrender.com/) and checkout a deployed version
+
+### Landing page
+![Demo landing page](./assets/demo/landing.png)
+
+### Login page
+![Demo login page](./assets/demo/login.png)
+
+### Home page
+![Demo home page](./assets/demo/home.png)
+
 ## 🌍 Overview
 
 NomadKing MVP is a community-driven web application where digital nomads can:
